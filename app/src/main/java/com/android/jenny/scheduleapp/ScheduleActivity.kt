@@ -1,0 +1,11 @@
+package com.android.jenny.scheduleapp
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+class ScheduleActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_schedule_detail)
+    }
+}
