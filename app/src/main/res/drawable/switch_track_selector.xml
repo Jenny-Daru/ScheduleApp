@@ -7,7 +7,7 @@
         android:state_enabled="false" />
 
     <item
-        android:drawable="@drawable/switch_track_off"
+        android:drawable="@drawable/switch_track_on"
         android:state_enabled="false" />
 
 </selector>
