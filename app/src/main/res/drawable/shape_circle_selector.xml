@@ -2,10 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:state_checked="false"
-        android:drawable="@drawable/shape_circle_clicked" />
+        android:state_selected="false"
+        android:drawable="@drawable/shape_circle" />
 
     <item
-        android:state_checked="true"
-        android:drawable="@drawable/shape_circle_unclicked" />
+        android:state_selected="true"
+        android:drawable="@drawable/shape_circle_selected" />
+
 </selector>

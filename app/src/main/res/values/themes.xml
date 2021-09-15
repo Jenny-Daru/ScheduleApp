@@ -5,5 +5,18 @@
         <item name="colorPrimaryDark">@color/green_200</item>
         <item name="colorPrimaryVariant">@color/green_700</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/green_700</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="android:Widget.Material.Light.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+
+    <style name="SwitchTheme" parent="Widget.AppCompat.CompoundButton.Switch" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:track">@drawable/switch_track</item>
+        <item name="android:switchMinWidth">10dp</item>
     </style>
 </resources>

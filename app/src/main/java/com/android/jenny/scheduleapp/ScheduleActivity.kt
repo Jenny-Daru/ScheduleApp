@@ -11,7 +11,7 @@ class ScheduleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_schedule)
     }
 
-    fun addTimeClick(view: View) {
+    fun addTimeBtnClick(view: View) {
         var intent = Intent(this, ScheduleDetailActivity::class.java)
         startActivity(intent)
     }

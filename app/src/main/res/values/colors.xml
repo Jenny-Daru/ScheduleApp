@@ -4,10 +4,13 @@
     <color name="green_700">#3DC864</color>
     <color name="green_900">#298C58</color>
     <color name="grey_900">#2C2D35</color>
+    <color name="grey_700">#6B6B70</color>
+    <color name="grey_200">#CDCFCC</color>
     <color name="navy_700">#185961</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey_200">#CDCFCC</color>
+    <color name="green_grey_1">#C7DFC7</color>
+    <color name="green_grey_2">#C3CFC5</color>
 
     <!-- alert Dialog demo colors -->
     <color name="coral">#FF6663</color>

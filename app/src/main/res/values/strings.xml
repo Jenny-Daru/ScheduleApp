@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">ScheduleApp</string>
+
+    <string name="add_time">+Add time</string>
+    <string name="schedules">SCHEDULES</string>
+
     <string name="sun">S</string>
     <string name="mon">M</string>
     <string name="tues">T</string>
@@ -7,11 +11,24 @@
     <string name="thurs">T</string>
     <string name="fri">F</string>
     <string name="sat">S</string>
+
+    <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
 
     <string name="startTime">Start Time</string>
     <string name="endTime">End Time</string>
     <string name="edittext_start">00:00</string>
     <string name="edittext_end">00:00</string>
     <string name="edittext_middle">~</string>
+
+    <string name="time1">12A</string>
+    <string name="time2">4A</string>
+    <string name="time3">8A</string>
+    <string name="time4">12P</string>
+    <string name="time5">4P</string>
+    <string name="time6">8P</string>
+    <string name="time7">12A</string>
+
+    <string name="edit_schedule_name">Edit Schedule Name</string>
 </resources>

@@ -2,33 +2,119 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <TextView
+        android:id="@+id/textview_time1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/time1"
+        style="@style/textview_small"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/progress_sun"
+        />
+
+    <TextView
+        android:id="@+id/textview_time2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time2"
+        style="@style/textview_small"
+        app:layout_constraintStart_toEndOf="@+id/textview_time1"
+        app:layout_constraintTop_toTopOf="@+id/textview_time1"
+        app:layout_constraintEnd_toStartOf="@id/textview_time3"
+        />
+
+    <TextView
+        android:id="@+id/textview_time3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time3"
+        style="@style/textview_small"
+        app:layout_constraintStart_toEndOf="@+id/textview_time2"
+        app:layout_constraintTop_toTopOf="@+id/textview_time2"
+        app:layout_constraintEnd_toStartOf="@+id/textview_time4"
+        />
+
+    <TextView
+        android:id="@+id/textview_time4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time4"
+        style="@style/textview_small"
+        app:layout_constraintStart_toEndOf="@+id/textview_time3"
+        app:layout_constraintTop_toTopOf="@+id/textview_time3"
+        app:layout_constraintEnd_toStartOf="@+id/textview_time5"
+        />
+
+    <TextView
+        android:id="@+id/textview_time5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time5"
+        style="@style/textview_small"
+        app:layout_constraintStart_toEndOf="@+id/textview_time4"
+        app:layout_constraintTop_toTopOf="@+id/textview_time4"
+        app:layout_constraintEnd_toStartOf="@+id/textview_time6"
+        />
+
+    <TextView
+        android:id="@+id/textview_time6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time6"
+        style="@style/textview_small"
+        app:layout_constraintStart_toEndOf="@+id/textview_time5"
+        app:layout_constraintTop_toTopOf="@+id/textview_time5"
+        app:layout_constraintEnd_toStartOf="@+id/textview_time7"
+        />
+
+    <TextView
+        android:id="@+id/textview_time7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time7"
+        style="@style/textview_small"
+        app:layout_constraintTop_toTopOf="@+id/textview_time6"
+        app:layout_constraintEnd_toEndOf="@+id/progress_sun"
+        />
+
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:id="@+id/progress_sun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_time1" />
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:id="@+id/progress_mon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_sun" />
@@ -38,11 +124,14 @@
         android:id="@+id/progress_tues"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_mon" />
@@ -52,11 +141,14 @@
         android:id="@+id/progress_wed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_tues" />
@@ -66,11 +158,14 @@
         android:id="@+id/progress_thurs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_wed" />
@@ -80,11 +175,14 @@
         android:id="@+id/progress_fri"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_thurs" />
@@ -94,11 +192,14 @@
         android:id="@+id/progress_sat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_horizontal"
+        android:progressDrawable="@drawable/progress_schedule_horizontal"
         android:scaleY="0.7"
         android:max="60"
         android:progress="20"
-        android:padding="10.00dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress_fri" />
