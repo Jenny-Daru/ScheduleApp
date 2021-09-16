@@ -2,7 +2,6 @@ package com.android.jenny.scheduleapp
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -11,55 +10,36 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import androidx.databinding.DataBindingUtil
+import com.android.jenny.scheduleapp.databinding.ActivityDetailBinding
 import java.util.*
 
-class ScheduleDetailActivity: AppCompatActivity() {
-
+class DetailActivity: AppCompatActivity() {
     private val TAG = "ScheduleDetailActivity"
-    
+    lateinit var binding: ActivityDetailBinding
     private lateinit var textViewTitle: TextView
-    
-    private lateinit var editNameButton: Button
-    
-    private lateinit var sunButton: Button
-    private lateinit var monButton: Button
-    private lateinit var tuesButton: Button
-    private lateinit var wedButton: Button
-    private lateinit var thursButton: Button
-    private lateinit var friButton: Button
-    private lateinit var satButton: Button
-    
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule_detail)
-        
-        textViewTitle = findViewById(R.id.textview_title)
-        editNameButton = findViewById(R.id.button_editTitle)
-        sunButton = findViewById(R.id.button_sun)
-        monButton = findViewById(R.id.button_mon)
-        tuesButton = findViewById(R.id.button_tues)
-        wedButton = findViewById(R.id.button_wed)
-        thursButton = findViewById(R.id.button_thurs)
-        friButton = findViewById(R.id.button_fri)
-        satButton = findViewById(R.id.button_sat)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        binding.activity = this@DetailActivity
 
-        startTimeButton = findViewById(R.id.button_startTime)
-        endTimeButton = findViewById(R.id.button_endTime)
+        performDataBinding()
+        widgetSetting()
     }
-    
-    fun editScheduleName(view: View) {
+
+    fun editScheduleName() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.edit_schedule_name)
-        
+
         val input = EditText(this)
         input.hint = textViewTitle.text
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
-        
+
         builder.setPositiveButton("Ok") { _, _ ->
             var editName = input.text.toString()
             textViewTitle.text = editName
@@ -70,10 +50,22 @@ class ScheduleDetailActivity: AppCompatActivity() {
         builder.show()
     }
 
+    fun switchBtnClick(view: View) {
+        Log.e(TAG, "switch.isSelected: ${view.isSelected}")
+        val state = !view.isSelected
+        if (state) {
+            view.isSelected = true
+            Log.e(TAG, "switch is on")
+        } else {
+            view.isSelected = false
+            Log.e(TAG, "switch is off")
+        }
+    }
+
     fun dayBtnClick(view: View) {
-        var state = view.isSelected
+        val state = view.isSelected
         Log.e(TAG, "view.isSelected: $state")
-        if (!view.isSelected) {
+        if (!state) {
             view.isSelected = true
             view.setBackgroundResource(R.drawable.shape_circle_selected)
         } else {
@@ -87,13 +79,11 @@ class ScheduleDetailActivity: AppCompatActivity() {
         val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
         val minutes: Int = cal.get(Calendar.MINUTE)
 
-        // time picker dialog
         var timePicker = TimePickerDialog(
             this,
             2,
             { _, sHour, sMinute ->
                 updateTime(view, sHour, sMinute)
-//                startTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
             },
             hour,
             minutes,
@@ -107,5 +97,16 @@ class ScheduleDetailActivity: AppCompatActivity() {
             R.id.button_startTime -> startTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
             R.id.button_endTime -> endTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
         }
+    }
+
+    private fun widgetSetting() {
+        textViewTitle = binding.textviewTitle
+        startTimeButton = binding.buttonStartTime
+        endTimeButton = binding.buttonEndTime
+    }
+
+    private fun performDataBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+        binding.activity = this@DetailActivity
     }
 }

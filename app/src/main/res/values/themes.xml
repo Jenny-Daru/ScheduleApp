@@ -12,11 +12,11 @@
         <item name="android:timePickerMode">spinner</item>
     </style>
 
-    <style name="SwitchTheme" parent="Widget.AppCompat.CompoundButton.Switch" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:thumb">@drawable/switch_thumb</item>
-        <item name="android:track">@drawable/switch_track</item>
-        <item name="android:switchMinWidth">10dp</item>
-    </style>
+<!--    <style name="SwitchTheme" parent="Widget.AppCompat.CompoundButton.Switch" >-->
+<!--        <item name="android:layout_width">wrap_content</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:thumb">@drawable/switch_thumb</item>-->
+<!--        <item name="android:track">@drawable/switch_track_selector</item>-->
+<!--    </style>-->
+
 </resources>

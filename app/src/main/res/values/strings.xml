@@ -31,4 +31,5 @@
     <string name="time7">12A</string>
 
     <string name="edit_schedule_name">Edit Schedule Name</string>
+    <string name="edit_name">Edit Name</string>
 </resources>
