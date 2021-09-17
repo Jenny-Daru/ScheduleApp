@@ -32,8 +32,13 @@ android {
         jvmTarget = '1.8'
     }
 
+
     buildFeatures {
         dataBinding true
+    }
+
+    viewBinding {
+        enabled = true
     }
 
 }
@@ -50,4 +55,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.google.android.material:material:1.4.0'
+
+    // RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
 }
