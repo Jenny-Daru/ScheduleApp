@@ -2,13 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,13 +60,32 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+        <Button
+            android:id="@+id/button_modify_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:padding="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="right"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/coral"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/switch_schedule_date"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_time"
+            />
+
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/borderline_grey"
-            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

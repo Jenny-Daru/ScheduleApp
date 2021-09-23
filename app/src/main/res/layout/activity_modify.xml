@@ -6,20 +6,20 @@
     <data>
         <variable
             name="activity"
-            type="com.android.jenny.scheduleapp.DetailActivity" />
+            type="com.android.jenny.scheduleapp.ModifyActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".DetailActivity" >
+        android:layout_height="wrap_content"
+        tools:context=".ModifyActivity" >
 
         <Button
             android:id="@+id/button_save"
             android:minHeight="0dp"
+            android:minWidth="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="right"
@@ -30,7 +30,7 @@
             android:textAllCaps="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="@{() -> activity.activityForResult()}"
+            app:layout_constraintStart_toStartOf="parent"
             />
 
         <View
@@ -53,7 +53,6 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line_top"
-            android:onClick="@{() -> activity.editScheduleName()}"
             />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -64,7 +63,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/button_editTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textview_title"
-            android:onClick="@{activity::switchBtnClick}"
              />
 
         <Button
@@ -72,8 +70,7 @@
             android:minHeight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="14sp"
             android:text="@string/edit_name"
             android:textAllCaps="false"
@@ -82,7 +79,6 @@
             android:gravity="left"
             app:layout_constraintTop_toBottomOf="@+id/textview_title"
             app:layout_constraintStart_toStartOf="@id/textview_title"
-            android:onClick="@{() -> activity.editScheduleName()}"
             />
 
         <View
@@ -121,7 +117,6 @@
             app:layout_constraintEnd_toStartOf="@+id/button_mon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1"
-            android:onClick="@{activity::dayBtnClick}"
              />
 
         <Button
@@ -136,7 +131,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_sun"
             app:layout_constraintEnd_toStartOf="@+id/button_tues"
             app:layout_constraintTop_toTopOf="@+id/button_sun"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <Button
@@ -151,7 +145,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_mon"
             app:layout_constraintEnd_toStartOf="@+id/button_wed"
             app:layout_constraintTop_toTopOf="@+id/button_mon"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <Button
@@ -166,7 +159,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_tues"
             app:layout_constraintEnd_toStartOf="@+id/button_thurs"
             app:layout_constraintTop_toTopOf="@+id/button_tues"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <Button
@@ -181,7 +173,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_wed"
             app:layout_constraintEnd_toStartOf="@+id/button_fri"
             app:layout_constraintTop_toTopOf="@+id/button_wed"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <Button
@@ -197,7 +188,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_thurs"
             app:layout_constraintEnd_toStartOf="@+id/button_sat"
             app:layout_constraintTop_toTopOf="@+id/button_thurs"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <Button
@@ -211,7 +201,6 @@
             app:layout_constraintStart_toEndOf="@+id/button_fri"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/button_fri"
-            android:onClick="@{activity::dayBtnClick}"
             />
 
         <TextView
@@ -242,7 +231,6 @@
             app:layout_constraintEnd_toEndOf="@+id/button_save"
             app:layout_constraintTop_toBottomOf="@+id/line3"
             app:layout_constraintBottom_toTopOf="@id/line2"
-            android:onClick="@{activity::timeSetting}"
             />
 
         <View
@@ -281,7 +269,6 @@
             app:layout_constraintEnd_toEndOf="@id/button_save"
             app:layout_constraintTop_toBottomOf="@+id/line3"
             app:layout_constraintBottom_toTopOf="@+id/line4"
-            android:onClick="@{activity::timeSetting}"
             />
 
         <View
@@ -290,21 +277,6 @@
             android:layout_height="1dp"
             android:background="@color/grey_200"
             app:layout_constraintTop_toBottomOf="@+id/textview_endTime"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <Button
-            android:id="@+id/button_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
-            android:textAllCaps="false"
-            android:text="@string/cancel"
-            android:textSize="16sp"
-            android:textColor="@color/coral"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />

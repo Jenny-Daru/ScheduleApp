@@ -2,6 +2,7 @@ package com.android.jenny.scheduleapp
 
 import android.app.AlertDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -10,14 +11,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import com.android.jenny.scheduleapp.databinding.ActivityDetailBinding
+import com.android.jenny.scheduleapp.model.Schedule
+import java.io.Serializable
 import java.util.*
 
 class DetailActivity: AppCompatActivity() {
     private val TAG = "ScheduleDetailActivity"
-    lateinit var binding: ActivityDetailBinding
+    private lateinit var binding: ActivityDetailBinding
     private lateinit var textViewTitle: TextView
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
@@ -29,6 +31,26 @@ class DetailActivity: AppCompatActivity() {
 
         performDataBinding()
         widgetSetting()
+    }
+
+    fun activityForResult() {
+        val schedule = getDetail()
+        val intent = Intent(this@DetailActivity, ScheduleActivity::class.java).apply {
+            putExtra(ScheduleActivity.INTENT_KEY, schedule)
+        }
+        setResult(RESULT_OK, intent)
+        if (!isFinishing) finish()
+        Log.e(TAG, "전달 완료!")
+    }
+
+    private fun getDetail(): Schedule {
+        return Schedule(
+            "1",
+            textViewTitle.text.toString(),
+            "1100000",
+            startTimeButton.text.toString(),
+            endTimeButton.text.toString()
+        )
     }
 
     fun editScheduleName() {
