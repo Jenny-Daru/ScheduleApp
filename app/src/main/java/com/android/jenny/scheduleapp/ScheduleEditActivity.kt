@@ -6,16 +6,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.android.jenny.scheduleapp.databinding.ActivityModifyBinding
+import com.android.jenny.scheduleapp.databinding.ActivityScheduleEditBinding
 import com.android.jenny.scheduleapp.model.Schedule
 
-class ModifyActivity: AppCompatActivity() {
+class ScheduleEditActivity: AppCompatActivity() {
 
     companion object {
-        private const val TAG = "ModifyActivity"
+        private const val TAG = "ScheduleEditActivity"
     }
-    private lateinit var binding: ActivityModifyBinding
-    private lateinit var textViewTitle: TextView
+    private lateinit var binding: ActivityScheduleEditBinding
+    private lateinit var textViewName: TextView
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
@@ -23,30 +23,37 @@ class ModifyActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        setContentView(R.layout.activity_detail)
+        schedule = getData()
 
         performDataBinding()
+        initData(schedule)
+    }
+
+    fun removeForScheduleListActivity() {
+
     }
 
     private fun getData(): Schedule {
-        var intent = intent
+        val intent = intent
         return intent.getParcelableExtra("modifySchedule")!!
+    }
+
+    private fun initData(data: Schedule) {
+        textViewName.text = data.name
+        startTimeButton.text = data.start_time
+        endTimeButton.text = data.end_time
     }
 
     private fun performDataBinding() {
         Log.e(TAG, "performDataBinding()")
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_modify)
-        binding.activity = this@ModifyActivity
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_edit)
+        binding.activity = this@ScheduleEditActivity
 
-        upLoad(getData())
+        textViewName = binding.textviewName
+        startTimeButton = binding.buttonStartTime
+        endTimeButton = binding.buttonEndTime
     }
 
-    private fun upLoad(data: Schedule) {
-        binding.textviewTitle.text = data.name
-        binding.buttonStartTime.text = data.start_time
-        binding.buttonEndTime.text = data.end_time
-    }
 
 
 //    fun onClose(view: View) {

@@ -3,6 +3,7 @@
 
     <string name="add_time">+Add time</string>
     <string name="schedules">SCHEDULES</string>
+    <string name="no_schedules">no Schedules</string>
 
     <string name="sun">S</string>
     <string name="mon">M</string>

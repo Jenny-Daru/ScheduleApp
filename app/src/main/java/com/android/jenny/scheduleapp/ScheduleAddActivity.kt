@@ -12,59 +12,60 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.android.jenny.scheduleapp.databinding.ActivityDetailBinding
+import com.android.jenny.scheduleapp.databinding.ActivityScheduleAddBinding
 import com.android.jenny.scheduleapp.model.Schedule
-import java.io.Serializable
 import java.util.*
 
-class DetailActivity: AppCompatActivity() {
-    private val TAG = "ScheduleDetailActivity"
-    private lateinit var binding: ActivityDetailBinding
-    private lateinit var textViewTitle: TextView
+class ScheduleAddActivity: AppCompatActivity() {
+    companion object {
+        private const val TAG = "ScheduleDetailActivity"
+    }
+
+    private lateinit var binding: ActivityScheduleAddBinding
+    private lateinit var textViewName: TextView
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        binding.activity = this@DetailActivity
-
         performDataBinding()
-        widgetSetting()
     }
 
-    fun activityForResult() {
-        val schedule = getDetail()
-        val intent = Intent(this@DetailActivity, ScheduleActivity::class.java).apply {
-            putExtra(ScheduleActivity.INTENT_KEY, schedule)
-        }
+    fun saveForScheduleListActivity() {
+        val addScheduleData = getInputData()
+        val intent = Intent(this@ScheduleAddActivity, ScheduleListActivity::class.java)
+        intent.putExtra(ScheduleListActivity.ADD_SCHEDULE_KEY, addScheduleData)
         setResult(RESULT_OK, intent)
         if (!isFinishing) finish()
-        Log.e(TAG, "전달 완료!")
+        Log.e(TAG, "addScheduleData 전달 완료!")
     }
 
-    private fun getDetail(): Schedule {
+    fun cancelForScheduleListActivity() {
+        finish()
+    }
+
+    private fun getInputData(): Schedule {
         return Schedule(
             "1",
-            textViewTitle.text.toString(),
+            textViewName.text.toString(),
             "1100000",
             startTimeButton.text.toString(),
             endTimeButton.text.toString()
         )
     }
 
-    fun editScheduleName() {
+    fun settingScheduleNameDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.edit_schedule_name)
 
         val input = EditText(this)
-        input.hint = textViewTitle.text
+        input.hint = textViewName.text
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
         builder.setPositiveButton("Ok") { _, _ ->
             var editName = input.text.toString()
-            textViewTitle.text = editName
+            textViewName.text = editName
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.cancel()
@@ -96,17 +97,16 @@ class DetailActivity: AppCompatActivity() {
         }
     }
 
-    fun timeSetting(view: View) {
+    fun settingTime(view: View) {
         val cal: Calendar = Calendar.getInstance()
         val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
         val minutes: Int = cal.get(Calendar.MINUTE)
 
-        var timePicker = TimePickerDialog(
+        val timePicker = TimePickerDialog(
             this,
             2,
             { _, sHour, sMinute ->
-                updateTime(view, sHour, sMinute)
-            },
+                setTime(view, sHour, sMinute) },
             hour,
             minutes,
             true
@@ -114,21 +114,26 @@ class DetailActivity: AppCompatActivity() {
         timePicker.show()
     }
 
-    private fun updateTime(view: View, sHour: Int, sMinute: Int) {
+    private fun setTime(view: View, sHour: Int, sMinute: Int) {
         when (view.id) {
             R.id.button_startTime -> startTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
             R.id.button_endTime -> endTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
         }
     }
 
-    private fun widgetSetting() {
-        textViewTitle = binding.textviewTitle
+    private fun performDataBinding() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_add)
+        binding.activity = this@ScheduleAddActivity
+
+        textViewName = binding.textviewName
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
     }
 
-    private fun performDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        binding.activity = this@DetailActivity
+    private fun widgetSetting() {
+        textViewName = binding.textviewName
+        startTimeButton = binding.buttonStartTime
+        endTimeButton = binding.buttonEndTime
     }
+
 }

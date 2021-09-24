@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="com.android.jenny.scheduleapp.ScheduleActivity" />
+            type="com.android.jenny.scheduleapp.ScheduleListActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textview_title"
+        android:id="@+id/textview_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Schedule"
@@ -27,13 +27,13 @@
         />
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_push_noti"
+        android:id="@+id/switch_all_on_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_title"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textview_title"
+        app:layout_constraintTop_toTopOf="@+id/textview_name"
         android:onClick="@{activity::switchBtnClick}"
         />
 
@@ -43,7 +43,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/borderline_grey"
-        app:layout_constraintTop_toBottomOf="@+id/textview_title"
+        app:layout_constraintTop_toBottomOf="@+id/textview_name"
         />
 
     <TextView
@@ -65,8 +65,9 @@
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/borderline_grey"
+        app:layout_constraintStart_toStartOf="@+id/textview_schedule_list"
         app:layout_constraintEnd_toEndOf="@id/button_addTime"
-        app:layout_constraintTop_toBottomOf="@id/textview_schedule_list"
+        app:layout_constraintTop_toBottomOf="@id/button_addTime"
         />
 
     <Button
@@ -74,24 +75,29 @@
         android:minHeight="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:padding="5dp"
+        android:layout_marginRight="5dp"
         android:text="+ Add Time"
         android:textAllCaps="false"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="@color/green_700"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/line2"
-        android:onClick="@{() -> activity.moveDetailActivity()}"
+        app:layout_constraintTop_toTopOf="@+id/textview_schedule_list"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_list"
+        android:onClick="@{() -> activity.openScheduleAddActivityForResult()}"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_schedule"
+        android:id="@+id/recyclerview_scheduleList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/line2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
