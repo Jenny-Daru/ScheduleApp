@@ -1,10 +1,12 @@
 package com.android.jenny.scheduleapp
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -18,7 +20,7 @@ import java.util.*
 
 class ScheduleAddActivity: AppCompatActivity() {
     companion object {
-        private const val TAG = "ScheduleDetailActivity"
+        private const val TAG = "ScheduleAddActivity"
     }
 
     private lateinit var binding: ActivityScheduleAddBinding
@@ -26,15 +28,34 @@ class ScheduleAddActivity: AppCompatActivity() {
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
+    private var flag: Boolean = false // Add: false, Edit: true
+    private lateinit var schedule: Schedule
+    private var key: String = "key"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         performDataBinding()
+        getIntentValue()
+//        initData(schedule)
+    }
+
+    private fun getIntentValue() {
+        val intent = intent
+        key = intent.getStringExtra("key").toString()
+        if (key == "editScheduleData") {
+            val data:Schedule = intent.getParcelableExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA)!!
+            binding.buttonDelete.visibility = View.VISIBLE
+            initEditData(data)
+        }
     }
 
     fun saveForScheduleListActivity() {
-        val addScheduleData = getInputData()
         val intent = Intent(this@ScheduleAddActivity, ScheduleListActivity::class.java)
-        intent.putExtra(ScheduleListActivity.ADD_SCHEDULE_KEY, addScheduleData)
+        when(key) {
+            "editScheduleKey" -> intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, getInputData())
+            else -> intent.putExtra(ScheduleListActivity.ADD_SCHEDULE_DATA, getInputData())
+        }
+
         setResult(RESULT_OK, intent)
         if (!isFinishing) finish()
         Log.e(TAG, "addScheduleData 전달 완료!")
@@ -130,7 +151,13 @@ class ScheduleAddActivity: AppCompatActivity() {
         endTimeButton = binding.buttonEndTime
     }
 
-    private fun widgetSetting() {
+    private fun initEditData(data: Schedule) {
+        textViewName.text = data.name
+        startTimeButton.text = data.start_time
+        endTimeButton.text = data.end_time
+    }
+
+    private fun initData() {
         textViewName = binding.textviewName
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime

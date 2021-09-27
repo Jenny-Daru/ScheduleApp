@@ -1,5 +1,7 @@
 package com.android.jenny.scheduleapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -9,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.android.jenny.scheduleapp.databinding.ActivityScheduleEditBinding
 import com.android.jenny.scheduleapp.model.Schedule
 
-class ScheduleEditActivity: AppCompatActivity() {
+class ScheduleEditActivity: Activity () {
 
     companion object {
         private const val TAG = "ScheduleEditActivity"

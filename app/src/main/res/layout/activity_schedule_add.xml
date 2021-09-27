@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ScheduleAddActivity" >
+        >
 
         <Button
             android:id="@+id/button_save"
@@ -295,12 +295,13 @@
             />
 
         <Button
-            android:id="@+id/button_cancel"
+            android:visibility="gone"
+            android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="70dp"
             android:textAllCaps="false"
-            android:text="@string/cancel"
+            android:text="@string/delete"
             android:textSize="16sp"
             android:textColor="@color/coral"
             android:background="@android:color/transparent"

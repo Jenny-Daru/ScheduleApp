@@ -18,7 +18,10 @@
         </activity>
         <activity android:name=".ScheduleAddActivity" />
         <activity
-            android:name=".ScheduleEditActivity" />
+            android:name=".ScheduleEditActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"
+            />
+
     </application>
 
 </manifest>

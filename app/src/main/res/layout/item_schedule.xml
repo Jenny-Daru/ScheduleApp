@@ -62,7 +62,7 @@
             />
 
         <Button
-            android:id="@+id/button_modify_detail"
+            android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"

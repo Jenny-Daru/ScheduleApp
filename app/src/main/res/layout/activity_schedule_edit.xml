@@ -10,8 +10,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
         tools:context=".ScheduleEditActivity" >
 
         <Button
@@ -282,7 +282,7 @@
             />
 
         <Button
-            android:id="@+id/button_delete"
+            android:id="@+id/button_delete_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
