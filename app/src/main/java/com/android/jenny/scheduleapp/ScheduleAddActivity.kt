@@ -1,12 +1,10 @@
 package com.android.jenny.scheduleapp
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -30,39 +28,70 @@ class ScheduleAddActivity: AppCompatActivity() {
 
     private var flag: Boolean = false // Add: false, Edit: true
     private lateinit var schedule: Schedule
-    private var key: String = "key"
+    private lateinit var key: String
+    private var position: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e(TAG, "onCreate - start")
+
+        key = getIntentKey()
+
         performDataBinding()
-        getIntentValue()
-//        initData(schedule)
+        when (key) {
+            "editScheduleKey" -> {
+                position = intent.getStringExtra("position")?.toInt()
+                schedule = intent.getParcelableExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA)!!
+                binding.buttonRemove.visibility = View.VISIBLE
+                initEditScheduleData(schedule)
+            }
+        }
+
+//        schedule = getIntentKeyInfo()
+//        getIntentKeyInfo()
+//        initEditScheduleData(schedule)
     }
 
-    private fun getIntentValue() {
-        val intent = intent
-        key = intent.getStringExtra("key").toString()
-        if (key == "editScheduleData") {
-            val data:Schedule = intent.getParcelableExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA)!!
-            binding.buttonDelete.visibility = View.VISIBLE
-            initEditData(data)
-        }
+    private fun getIntentKey(): String {
+        return intent.getStringExtra("key").toString()
+    }
+
+    fun removeBtnClick() {
+        Log.e(TAG, "removeBtnClick - start")
+        removeForScheduleListActivity()
     }
 
     fun saveForScheduleListActivity() {
         val intent = Intent(this@ScheduleAddActivity, ScheduleListActivity::class.java)
         when(key) {
-            "editScheduleKey" -> intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, getInputData())
-            else -> intent.putExtra(ScheduleListActivity.ADD_SCHEDULE_DATA, getInputData())
+            "editScheduleKey" -> {
+                intent.putExtra("key", "editScheduleKey")
+                intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, getInputData())
+            }
+            else -> {
+                intent.putExtra("key", "addScheduleKey")
+                intent.putExtra(ScheduleListActivity.ADD_SCHEDULE_DATA, getInputData())
+            }
         }
-
         setResult(RESULT_OK, intent)
         if (!isFinishing) finish()
-        Log.e(TAG, "addScheduleData 전달 완료!")
+        Log.e(TAG, "$key _data 전달 완료!")
     }
 
-    fun cancelForScheduleListActivity() {
-        finish()
+    private fun removeForScheduleListActivity() {
+        Log.e(TAG, "removeForScheduleListActivity - start")
+        val intent = Intent(this@ScheduleAddActivity, ScheduleListActivity::class.java)
+        intent.putExtra("key", "removeScheduleKey")
+        intent.putExtra("position", position)
+        intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, getInputData())
+        setResult(RESULT_OK, intent)
+        if (!isFinishing) finish()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG, "onPause()")
+        this.position = null
     }
 
     private fun getInputData(): Schedule {
@@ -85,7 +114,7 @@ class ScheduleAddActivity: AppCompatActivity() {
         builder.setView(input)
 
         builder.setPositiveButton("Ok") { _, _ ->
-            var editName = input.text.toString()
+            val editName = input.text.toString()
             textViewName.text = editName
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -142,22 +171,34 @@ class ScheduleAddActivity: AppCompatActivity() {
         }
     }
 
-    private fun performDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_add)
-        binding.activity = this@ScheduleAddActivity
-
-        textViewName = binding.textviewName
-        startTimeButton = binding.buttonStartTime
-        endTimeButton = binding.buttonEndTime
-    }
-
-    private fun initEditData(data: Schedule) {
+    private fun initEditScheduleData(data: Schedule) {
+        Log.e(TAG, "initEditScheduleData - start")
+        Log.e(TAG, "initEditData: $data")
         textViewName.text = data.name
         startTimeButton.text = data.start_time
         endTimeButton.text = data.end_time
     }
 
-    private fun initData() {
+    private fun getIntentKeyInfo(): Schedule {
+        Log.e(TAG, "getIntentKeyInfo - start")
+        val intent = intent
+        lateinit var data: Schedule
+        key = intent.getStringExtra("key").toString()
+        Log.e(TAG, "key: $key")
+        if (key == "editScheduleKey") {
+            data = intent.getParcelableExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA)!!
+            binding.buttonRemove.visibility = View.VISIBLE
+            Log.e(TAG, "getIntentKeyInfo_edit_data - ${data!!}")
+//            initEditScheduleData(data)
+        }
+        return data
+    }
+
+    private fun performDataBinding() {
+        Log.e(TAG, "performDataBinding - start")
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_add)
+        binding.activity = this@ScheduleAddActivity
+
         textViewName = binding.textviewName
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime

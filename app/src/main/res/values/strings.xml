@@ -17,6 +17,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
 
     <string name="startTime">Start Time</string>
     <string name="endTime">End Time</string>
