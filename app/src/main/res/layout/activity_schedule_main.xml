@@ -6,12 +6,13 @@
     <data>
         <variable
             name="activity"
-            type="com.android.jenny.scheduleapp.ScheduleListActivity" />
+            type="com.android.jenny.scheduleapp.ScheduleMainActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
 
     <TextView
         android:id="@+id/textview_name"
@@ -76,8 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_marginRight="5dp"
-        android:text="+ Add Time"
+        android:text="+ Add"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textColor="@color/green_700"
@@ -94,9 +94,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/line2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

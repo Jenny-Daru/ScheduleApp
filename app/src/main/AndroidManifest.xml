@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScheduleApp">
-        <activity android:name=".ScheduleListActivity">
+        <activity android:name=".ScheduleMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScheduleAddActivity" />
+        <activity android:name=".ScheduleAddEditActivity" />
         <activity
             android:name=".ScheduleEditActivity"
             android:theme="@android:style/Theme.Holo.Dialog"

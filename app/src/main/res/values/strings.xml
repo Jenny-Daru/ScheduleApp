@@ -5,13 +5,21 @@
     <string name="schedules">SCHEDULES</string>
     <string name="no_schedules">no Schedules</string>
 
-    <string name="sun">S</string>
-    <string name="mon">M</string>
-    <string name="tues">T</string>
-    <string name="wed">W</string>
-    <string name="thurs">T</string>
-    <string name="fri">F</string>
-    <string name="sat">S</string>
+    <string name="button_sun">S</string>
+    <string name="button_mon">M</string>
+    <string name="button_tues">T</string>
+    <string name="button_wed">W</string>
+    <string name="button_thurs">T</string>
+    <string name="button_fri">F</string>
+    <string name="button_sat">S</string>
+
+    <string name="sun_day">Sun</string>
+    <string name="mon_day">Mon</string>
+    <string name="tues_day">Tue</string>
+    <string name="wed_day">Wed</string>
+    <string name="thurs_day">Thu</string>
+    <string name="fri_day">Fri</string>
+    <string name="sat_day">Sat</string>
 
     <string name="back">Back</string>
     <string name="save">Save</string>

@@ -17,4 +17,3 @@ data class Schedule (
     val start_time: String,
     val end_time: String
 ): Parcelable
-

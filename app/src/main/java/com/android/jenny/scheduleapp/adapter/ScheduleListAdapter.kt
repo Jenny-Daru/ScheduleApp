@@ -1,15 +1,10 @@
 package com.android.jenny.scheduleapp.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.android.jenny.scheduleapp.ScheduleAddActivity
-import com.android.jenny.scheduleapp.ScheduleListActivity
 import com.android.jenny.scheduleapp.databinding.ItemScheduleBinding
 import com.android.jenny.scheduleapp.model.Schedule
-
 
 class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleViewHolder>() {
 
@@ -24,11 +19,6 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
     override fun onBindViewHolder(holder: ScheduleListAdapter.ScheduleViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item, position)
-
-//        holder.binding.buttonEdit.setOnClickListener {
-//            editClickListener.editClick(it, position, item)
-//        }
-
     }
 
     fun addItem(schedule: Schedule) {
@@ -37,32 +27,20 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
     }
 
     fun removeItem(position: Int) {
-        if (position > 0) {
             data.removeAt(position)
             notifyDataSetChanged()
-        }
+            notifyItemRangeChanged(position, data.size)
     }
 
     inner class ScheduleViewHolder(var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(schedule: Schedule, position: Int) {
             binding.textviewScheduleName.text = schedule.name
+            binding.textviewScheduleDays.text = schedule.day
             binding.textviewScheduleTime.text = schedule.start_time.plus(" - ").plus(schedule.end_time)
-
-//            binding.buttonEdit.setOnClickListener {
-//                val intent = Intent(it.context, ScheduleAddActivity::class.java)
-//                intent.putExtra("key","editScheduleKey")
-//                intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, schedule)
-//                intent.putExtra("position", position)
-//                it.context.startActivity(intent)
-//            }
 
             binding.buttonEdit.setOnClickListener {
                 editClickListener.editClick(position, schedule)
-//                val intent = Intent(it.context, ScheduleAddActivity::class.java)
-//                intent.putExtra("key", "editScheduleKey")
-//                intent.putExtra(ScheduleListActivity.EDIT_SCHEDULE_DATA, schedule)
-//                it.context.startActivity(intent)
             }
         }
     }
@@ -76,12 +54,5 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
     }
 
     private lateinit var editClickListener: EditClickListener
-
-
-    interface OnItemClickListener {
-        fun onClick(view:View, position: Int)
-    }
-    private lateinit var itemClickListener: OnItemClickListener
-
 
 }
