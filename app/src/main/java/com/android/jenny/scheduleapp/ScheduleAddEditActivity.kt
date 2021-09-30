@@ -99,7 +99,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         return Schedule(
             "1",
             textViewName.text.toString(),
-            dayList.joinToString(","),
+            dayList.distinct().joinToString(","),
             startTimeButton.text.toString(),
             endTimeButton.text.toString()
         )
@@ -136,22 +136,25 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         }
     }
 
-    private fun getDayButtonFromValue(days: String) {
+    private fun getDayButtonBeforeEdit(days: String) {
         // ,구분
         // id 반환
         var view = currentFocus
         var button: Button? = null
-        val dayList = days.split(",")
-        for (x in dayList.indices) {
-            when (dayList[x]) {
-                resources.getString(R.string.sun_day) -> sunButton.setBackgroundResource(R.drawable.shape_circle_selected)
+        val day_arr = days.split(",")
+        for (x in day_arr.indices) {
+            when (day_arr[x]) {
+                resources.getString(R.string.sun_day) -> {
+                    sunButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    dayList.add("Sun")
+                }
                 resources.getString(R.string.mon_day) -> monButton.setBackgroundResource(R.drawable.shape_circle_selected)
                 resources.getString(R.string.tues_day) -> tuesButton.setBackgroundResource(R.drawable.shape_circle_selected)
                 resources.getString(R.string.wed_day) -> wedButton.setBackgroundResource(R.drawable.shape_circle_selected)
                 resources.getString(R.string.thurs_day) -> thursButton.setBackgroundResource(R.drawable.shape_circle_selected)
                 resources.getString(R.string.fri_day) -> friButton.setBackgroundResource(R.drawable.shape_circle_selected)
             }
-            Log.e(TAG, "day_arr_for: $dayList[$x]: ${dayList[x]}")
+            Log.e(TAG, "day_arr_for: $day_arr[$x]: ${day_arr[x]}")
         }
     }
 
@@ -220,7 +223,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         textViewName.text = data.name
         startTimeButton.text = data.start_time
         endTimeButton.text = data.end_time
-        getDayButtonFromValue(data.day)
+        getDayButtonBeforeEdit(data.day)
     }
 
     private fun performDataBinding() {

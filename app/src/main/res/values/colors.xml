@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_200">#78C56F</color>
-    <color name="green_700">#3DC864</color>
-    <color name="green_900">#298C58</color>
+    <color name="green_200">#9FDA3C</color>
+    <color name="green_700">#81B73B</color>
+    <color name="green_900">#5B8228</color>
+    <color name="green_100">#CDEE9A</color>
     <color name="grey_900">#2C2D35</color>
+
     <color name="grey_700">#6B6B70</color>
     <color name="grey_200">#CDCFCC</color>
+    <color name="grey_400">#F7F7F7</color>
+
     <color name="navy_700">#185961</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
