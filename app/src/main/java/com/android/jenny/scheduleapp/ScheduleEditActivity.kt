@@ -42,8 +42,8 @@ class ScheduleEditActivity: Activity () {
 
     private fun initData(data: Schedule) {
         textViewName.text = data.name
-        startTimeButton.text = data.start_time
-        endTimeButton.text = data.end_time
+        startTimeButton.text = data.start
+        endTimeButton.text = data.end
     }
 
     private fun performDataBinding() {

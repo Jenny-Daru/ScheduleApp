@@ -37,7 +37,7 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
         fun bind(schedule: Schedule, position: Int) {
             binding.textviewScheduleName.text = schedule.name
             binding.textviewScheduleDays.text = schedule.day
-            binding.textviewScheduleTime.text = schedule.start_time.plus(" - ").plus(schedule.end_time)
+            binding.textviewScheduleTime.text = schedule.start.plus(" - ").plus(schedule.end)
 
             binding.buttonEdit.setOnClickListener {
                 editClickListener.editClick(position, schedule)

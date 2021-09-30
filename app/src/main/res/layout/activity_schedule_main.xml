@@ -47,6 +47,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textview_name"
         />
 
+    <Button
+        android:id="@+id/button_save_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Server"
+        android:textSize="12sp"
+        android:background="@color/green_700"
+        app:layout_constraintStart_toEndOf="@+id/textview_schedule_list"
+        app:layout_constraintTop_toTopOf="@+id/textview_schedule_list"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_list"
+        app:layout_constraintEnd_toStartOf="@+id/button_addTime"
+        android:onClick="@{() -> activity.makeAllScheduleJson()}"
+        />
+
+
 
     <TextView
         android:id="@+id/textview_schedule_list"

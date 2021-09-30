@@ -97,8 +97,8 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     private fun getInputData(): Schedule {
         return Schedule(
-            "1",
             textViewName.text.toString(),
+            "1",
             dayList.distinct().joinToString(","),
             startTimeButton.text.toString(),
             endTimeButton.text.toString()
@@ -221,8 +221,8 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         Log.e(TAG, "initEditScheduleData - start")
         Log.e(TAG, "initEditData: $data")
         textViewName.text = data.name
-        startTimeButton.text = data.start_time
-        endTimeButton.text = data.end_time
+        startTimeButton.text = data.start
+        endTimeButton.text = data.end
         getDayButtonBeforeEdit(data.day)
     }
 

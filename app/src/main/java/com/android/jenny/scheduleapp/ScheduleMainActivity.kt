@@ -10,7 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.android.jenny.scheduleapp.adapter.ScheduleListAdapter
 import com.android.jenny.scheduleapp.databinding.ActivityScheduleMainBinding
+import com.android.jenny.scheduleapp.model.AllSchedule
 import com.android.jenny.scheduleapp.model.Schedule
+import org.json.JSONArray
+import org.json.JSONObject
 
 class ScheduleMainActivity : AppCompatActivity() {
     lateinit var binding: ActivityScheduleMainBinding
@@ -18,7 +21,10 @@ class ScheduleMainActivity : AppCompatActivity() {
     private lateinit var scheduleAddResultLauncher: ActivityResultLauncher<Intent>
 
     private val list = mutableListOf<Schedule>()
-    var mItemList: MutableList<Schedule> = ArrayList()
+    var schedules: MutableList<Schedule> = mutableListOf()
+    private var allSchedule: AllSchedule? = null
+
+    private var useAll: Boolean = false
 
     companion object {
         private const val TAG = "ScheduleMainActivity"
@@ -47,7 +53,7 @@ class ScheduleMainActivity : AppCompatActivity() {
                     "editScheduleKey" -> {
                         val data = result.data?.getParcelableExtra<Schedule>(EDIT_SCHEDULE_DATA)
                         Log.e(TAG, "edit_schedule_data: $data")
-                        mItemList[position!!] = data!!
+                        schedules[position!!] = data!!
                         scheduleListAdapter.notifyDataSetChanged()
                     }
                     "removeScheduleKey" -> {
@@ -65,6 +71,67 @@ class ScheduleMainActivity : AppCompatActivity() {
                 openScheduleEditForResult(position,schedule)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // TODO: step1 - load schedule from server
+//        useAll = true
+
+        val schedule1 = Schedule(
+            "A",
+            "n",
+            "mon",
+            "07:00",
+            "20:00"
+        )
+        val schedule2 = Schedule(
+            "B",
+            "y",
+            "sun,mon,tue,wed,thu,fri,sat",
+            "12:00",
+            "00:00"
+        )
+        val schedule3 = Schedule(
+            "C",
+            "y",
+            "mon,fri",
+            "08:00",
+            "10:00"
+        )
+
+        schedules.add(schedule1)
+        schedules.add(schedule2)
+        schedules.add(schedule3)
+
+        allSchedule = AllSchedule("y", schedules)
+        Log.e(TAG, "json_1:$schedules")
+        Log.e(TAG, "json_2:$allSchedule")
+        scheduleListAdapter.data = allSchedule!!.schedules
+//        allSchedule = AllSchedule("1", mItemList)
+    }
+
+    fun makeAllScheduleJson() {
+//        val scheduleJson = Json.encodeToString(allSchedule)
+//        Log.e(TAG, "ScheduleJson: $scheduleJson")
+        val schedules = allSchedule!!.schedules
+        val jsonScheduleList = JSONArray()
+        for (i in schedules.indices) {
+            var sObject = JSONObject()
+            sObject.put("name", schedules[i].name)
+            sObject.put("use", schedules[i].use)
+            sObject.put("day", schedules[i].day)
+            sObject.put("start", schedules[i].start)
+            sObject.put("start", schedules[i].end)
+            jsonScheduleList.put(sObject)
+        }
+        Log.e(TAG, "jsonScheduleList: $jsonScheduleList")
+
+        val allScheduleJsonObject = JSONObject()
+        allScheduleJsonObject.put("use_all", allSchedule!!.user_all)
+        allScheduleJsonObject.put("schedules", jsonScheduleList)
+        Log.e(TAG, "allScheduleJsonObject: $allScheduleJsonObject")
+
     }
 
     fun openScheduleEditForResult(position: Int, schedule: Schedule) {
@@ -97,7 +164,7 @@ class ScheduleMainActivity : AppCompatActivity() {
         Log.e(TAG, "initRecyclerView()")
 //        // TODO add: getScheduleListFromServer
         scheduleListAdapter = ScheduleListAdapter()
-        scheduleListAdapter.data = mItemList
+//        scheduleListAdapter.data = allSchedule!!.schedules
 
         binding.recyclerviewScheduleList.run {
             adapter = scheduleListAdapter
@@ -109,6 +176,4 @@ class ScheduleMainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_main)
         binding.activity = this@ScheduleMainActivity
     }
-
-
 }

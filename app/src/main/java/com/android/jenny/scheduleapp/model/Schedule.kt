@@ -2,18 +2,22 @@ package com.android.jenny.scheduleapp.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class AllSchedule (
-    val all_on_off: String,
-    val data: List<Schedule>
+    val user_all: String,
+    val schedules: MutableList<Schedule> = mutableListOf()
 ): Parcelable
 
 @Parcelize
+@Serializable
 data class Schedule (
-    val on_off: String,
-    val name: String,
-    val day: String,
-    val start_time: String,
-    val end_time: String
+    var name: String,
+    var use: String,
+    var day: String,
+    var start: String,
+    var end: String
 ): Parcelable
