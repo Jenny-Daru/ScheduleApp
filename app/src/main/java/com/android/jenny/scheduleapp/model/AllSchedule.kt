@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class AllSchedule (
-    val user_all: String,
+    var use_all: String,
     val schedules: MutableList<Schedule> = mutableListOf()
 ): Parcelable
 

@@ -17,10 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScheduleAddEditActivity" />
-        <activity
-            android:name=".ScheduleEditActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"
-            />
 
     </application>
 
