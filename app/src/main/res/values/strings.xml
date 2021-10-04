@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">ScheduleApp</string>
 
-    <string name="add_time">+Add time</string>
-    <string name="schedules">SCHEDULES</string>
+    <string name="schedule_on_off">Schedule On/Off</string>
     <string name="no_schedules">no Schedules</string>
+    <string name="schedules">SCHEDULES</string>
 
     <string name="button_sun">S</string>
     <string name="button_mon">M</string>
@@ -21,7 +21,10 @@
     <string name="fri_day">Fri</string>
     <string name="sat_day">Sat</string>
 
-    <string name="back">Back</string>
+    <string name="arrow_back">Back</string>
+    <string name="arrow_next">Next</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
@@ -43,4 +46,5 @@
 
     <string name="edit_schedule_name">Edit Schedule Name</string>
     <string name="edit_name">Edit Name</string>
+
 </resources>

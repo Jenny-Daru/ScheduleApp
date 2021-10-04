@@ -49,6 +49,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         performDataBinding()
         when (key) {
             "editScheduleKey" -> {
+                binding.textviewScheduleAddTitle.setText(R.string.edit)
                 position = intent.getIntExtra("position", 1)
                 schedule = intent.getParcelableExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA)!!
                 binding.buttonRemove.visibility = View.VISIBLE

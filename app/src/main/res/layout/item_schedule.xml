@@ -6,17 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:background="@drawable/item_schedule_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
+        <TextView
+            android:id="@+id/textview_schedule_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:padding="5dp"
+            android:text="Special day"
+            android:textColor="@color/grey_900"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_each_on_off"
+            />
 
         <TextView
             android:id="@+id/textview_schedule_days"
@@ -25,6 +35,7 @@
             android:padding="5dp"
             android:textColor="@color/grey_900"
             android:textSize="12sp"
+            android:text="Sun,Mon,Tue,Wed,Thu,Fri,Sat"
             app:layout_constraintTop_toBottomOf="@+id/textview_schedule_name"
             app:layout_constraintStart_toStartOf="@+id/textview_schedule_name" />
 
@@ -41,43 +52,49 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
-        <TextView
-            android:id="@+id/textview_schedule_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Special day"
-            android:textColor="@color/grey_900"
-            android:textSize="16sp"
+        <Button
+            android:id="@+id/button_each_on_off"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@null"
+            android:background="@drawable/shape_circle_selected"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-        />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_schedule_date"
-            android:minWidth="0dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
-        <Button
-            android:id="@+id/button_edit"
+        <TextView
+            android:id="@+id/textview_each_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:padding="10dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="right"
-            android:text="Edit"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:textColor="@color/coral"
+            android:text="on"
+            android:textColor="@color/grey_900"
+            app:layout_constraintStart_toStartOf="@id/button_each_on_off"
+            app:layout_constraintEnd_toEndOf="@+id/button_each_on_off"
+            app:layout_constraintTop_toBottomOf="@+id/button_each_on_off"
+            />
+
+        <ImageButton
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
             android:background="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="@+id/switch_schedule_date"
-            app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_time"
+            android:src="@drawable/arrow_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/arrow_next" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/borderline_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

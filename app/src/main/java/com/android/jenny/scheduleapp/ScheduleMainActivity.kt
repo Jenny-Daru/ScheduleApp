@@ -32,6 +32,7 @@ class ScheduleMainActivity : AppCompatActivity() {
     var schedules: MutableList<Schedule> = mutableListOf()
     private var allSchedule: AllSchedule? = null
     var useAll = "y"
+    //
 
     companion object {
         private const val TAG = "ScheduleMainActivity"

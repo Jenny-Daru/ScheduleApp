@@ -9,135 +9,143 @@
             type="com.android.jenny.scheduleapp.ScheduleMainActivity" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <View
-        android:id="@+id/title_bar_schedule_main"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/borderline_green"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textview_schedule_main_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Schedule"
-        android:textColor="@color/white"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title_bar_schedule_main"
-        app:layout_constraintBottom_toBottomOf="@id/title_bar_schedule_main"
-        />
+        <View
+            android:id="@+id/title_bar_schedule_main"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/borderline_green"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
-    <TextView
-        android:id="@+id/textview_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule"
-        android:textColor="@color/grey_900"
-        android:textSize="20sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar_schedule_main"
-        />
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/arrow_back"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title_bar_schedule_main"
+            app:layout_constraintBottom_toBottomOf="@+id/title_bar_schedule_main"
+            android:contentDescription="@string/arrow_back" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_use_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textview_name"
-        android:checked="false"
-        android:onClick="@{activity::useAllSwitchClick}"
-        />
+        <TextView
+            android:id="@+id/textview_schedule_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Schedule"
+            android:textColor="@color/white"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title_bar_schedule_main"
+            app:layout_constraintBottom_toBottomOf="@id/title_bar_schedule_main"
+            />
 
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/borderline_grey"
-        app:layout_constraintTop_toBottomOf="@+id/textview_name"
-        />
+        <ImageButton
+            android:id="@+id/button_schedule_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/add"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title_bar_schedule_main"
+            app:layout_constraintBottom_toBottomOf="@+id/title_bar_schedule_main"
+            android:contentDescription="@string/add"
+            android:onClick="@{() -> activity.openScheduleAddForResult()}"
+            />
 
-    <Button
-        android:id="@+id/button_save_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Server"
-        android:textSize="12sp"
-        android:textColor="@color/coral"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@+id/textview_schedule_list"
-        app:layout_constraintTop_toTopOf="@+id/textview_schedule_list"
-        app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_list"
-        app:layout_constraintEnd_toStartOf="@+id/button_addTime"
-        android:onClick="@{() -> activity.makeAllScheduleJson()}"
-        />
+        <TextView
+            android:id="@+id/textview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/schedule_on_off"
+            android:textColor="@color/grey_900"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_bar_schedule_main"
+            />
 
-    <View
-        android:id="@id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/borderline_grey"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line1"
-        />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_use_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textview_name"
+            android:checked="false"
+            android:onClick="@{activity::useAllSwitchClick}"
+            />
 
-    <TextView
-        android:id="@+id/textview_schedule_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:textSize="14sp"
-        android:text="@string/schedules"
-        android:textColor="@color/grey_900"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line2"
-        app:layout_constraintBottom_toBottomOf="@+id/line2"
-        />
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borderline_grey"
+            app:layout_constraintTop_toBottomOf="@+id/textview_name"
+            />
 
-    <Button
-        android:id="@+id/button_addTime"
-        android:minHeight="0dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="+ Add"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textColor="@color/green_700"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line2"
-        app:layout_constraintBottom_toBottomOf="@+id/line2"
-        android:onClick="@{() -> activity.openScheduleAddForResult()}"
-        />
+        <Button
+            android:id="@+id/button_save_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Server"
+            android:textSize="12sp"
+            android:textColor="@color/coral"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@+id/textview_schedule_list"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> activity.makeAllScheduleJson()}"
+            />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_scheduleList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line2"
-        />
+        <View
+            android:id="@id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borderline_grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textview_schedule_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="12sp"
+            android:text="@string/schedules"
+            android:textColor="@color/grey_900"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/line2"
+            app:layout_constraintBottom_toBottomOf="@+id/line2"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_scheduleList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
