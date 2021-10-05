@@ -39,6 +39,7 @@
             android:id="@+id/textview_schedule_main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:textSize="20sp"
             android:text="Schedule"
             android:textColor="@color/white"
@@ -64,37 +65,30 @@
             />
 
         <TextView
-            android:id="@+id/textview_name"
+            android:id="@+id/textview_schedule_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
+            android:letterSpacing="0.05"
             android:text="@string/schedule_on_off"
             android:textColor="@color/grey_900"
             android:textSize="20sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_bar_schedule_main"
+            app:layout_constraintBottom_toTopOf="@+id/line1"
             />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_use_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textview_name"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_on_off"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textview_name"
+            app:layout_constraintTop_toTopOf="@+id/textview_schedule_on_off"
             android:checked="false"
             android:onClick="@{activity::useAllSwitchClick}"
-            />
-
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/borderline_grey"
-            app:layout_constraintTop_toBottomOf="@+id/textview_name"
             />
 
         <Button
@@ -112,28 +106,29 @@
             />
 
         <View
-            android:id="@id/line2"
+            android:id="@id/line1"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/borderline_grey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_on_off"
             />
 
         <TextView
             android:id="@+id/textview_schedule_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:letterSpacing="0.05"
             android:text="@string/schedules"
-            android:textColor="@color/grey_900"
+            android:textAllCaps="false"
+            android:textColor="@color/green_700"
             android:background="@android:color/transparent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/line2"
-            app:layout_constraintBottom_toBottomOf="@+id/line2"
+            app:layout_constraintStart_toStartOf="@+id/textview_schedule_on_off"
+            app:layout_constraintTop_toTopOf="@+id/line1"
+            app:layout_constraintBottom_toBottomOf="@+id/line1"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -144,7 +139,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line2"
+            app:layout_constraintTop_toBottomOf="@id/line1"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

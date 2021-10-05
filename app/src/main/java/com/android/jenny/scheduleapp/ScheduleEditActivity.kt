@@ -51,7 +51,7 @@ class ScheduleEditActivity: Activity () {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_edit)
         binding.activity = this@ScheduleEditActivity
 
-        textViewName = binding.textviewName
+        textViewName = binding.textviewScheduleOnOff
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
     }

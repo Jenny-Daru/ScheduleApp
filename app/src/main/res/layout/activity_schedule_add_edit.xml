@@ -39,6 +39,7 @@
             android:id="@+id/textview_schedule_add_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:textSize="20sp"
             android:text="@string/add"
             android:textColor="@color/white"
@@ -54,8 +55,9 @@
             android:minHeight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:layout_marginEnd="10dp"
-            android:gravity="right"
+            android:textAlignment="textEnd"
             android:textSize="16sp"
             android:text="@string/save"
             android:textColor="@color/white"
@@ -64,13 +66,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/title_bar_schedule_add_edit"
-            android:onClick="@{() -> activity.saveForScheduleListActivity()}"
+            android:onClick="@{() -> activity.setScheduleNameDialog()}"
             />
 
         <TextView
-            android:id="@+id/textview_name"
+            android:id="@+id/textview_schedule_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:text="Schedule"
@@ -88,7 +91,7 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/button_editName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textview_name"
+            app:layout_constraintTop_toTopOf="@+id/textview_schedule_on_off"
             android:onClick="@{activity::switchBtnClick}"
             />
 
@@ -97,6 +100,7 @@
             android:minHeight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:paddingTop="10dp"
             android:paddingBottom="5dp"
             android:textSize="14sp"
@@ -105,8 +109,8 @@
             android:background="@android:color/transparent"
             android:textColor="@color/green_700"
             android:gravity="left"
-            app:layout_constraintTop_toBottomOf="@+id/textview_name"
-            app:layout_constraintStart_toStartOf="@id/textview_name"
+            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_on_off"
+            app:layout_constraintStart_toStartOf="@id/textview_schedule_on_off"
             android:onClick="@{() -> activity.settingScheduleNameDialog()}"
             />
 
@@ -243,9 +247,11 @@
             android:id="@+id/textview_startTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:padding="5dp"
+            android:layout_marginTop="5dp"
             android:text="@string/startTime"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/grey_900"
             app:layout_constraintTop_toBottomOf="@id/line2"
             app:layout_constraintStart_toStartOf="parent"
@@ -256,38 +262,14 @@
             android:id="@+id/textview_endTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
             android:padding="5dp"
             android:text="@string/endTime"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/grey_900"
-            app:layout_constraintTop_toBottomOf="@id/line2"
+            app:layout_constraintTop_toTopOf="@id/textview_startTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textview_startTime"
-            />
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grey_200"
-            app:layout_constraintTop_toBottomOf="@+id/textview_startTime"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <Button
-            android:id="@+id/button_startTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edittext_start"
-            android:textSize="16sp"
-            android:focusable="false"
-            android:textColor="@color/green_700"
-            android:background="@android:color/transparent"
-            app:layout_constraintTop_toBottomOf="@+id/line3"
-            app:layout_constraintStart_toStartOf="@+id/textview_startTime"
-            app:layout_constraintEnd_toEndOf="@+id/textview_startTime"
-            android:onClick="@{activity::settingTime}"
             />
 
         <TextView
@@ -303,8 +285,40 @@
             app:layout_constraintEnd_toStartOf="@+id/button_endTime"
             />
 
+        <Button
+            android:id="@+id/button_startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edittext_start"
+            android:letterSpacing="0.05"
+            android:textSize="14sp"
+            android:focusable="false"
+            android:textColor="@color/green_700"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_startTime"
+            app:layout_constraintStart_toStartOf="@+id/textview_startTime"
+            app:layout_constraintEnd_toEndOf="@+id/textview_startTime"
+            android:onClick="@{activity::selectTime}"
+            />
+
+        <Button
+            android:id="@+id/button_endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.05"
+            android:text="@string/edittext_end"
+            android:textSize="14sp"
+            android:textColor="@color/green_700"
+            android:focusable="false"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_endTime"
+            app:layout_constraintStart_toStartOf="@+id/textview_endTime"
+            app:layout_constraintEnd_toEndOf="@+id/textview_endTime"
+            android:onClick="@{activity::selectTime}"
+            />
+
         <View
-            android:id="@+id/line4"
+            android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey_200"
@@ -313,37 +327,21 @@
             app:layout_constraintTop_toBottomOf="@+id/button_startTime"
             />
 
-
-        <Button
-            android:id="@+id/button_endTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edittext_end"
-            android:textSize="16sp"
-            android:textColor="@color/green_700"
-            android:focusable="false"
-            android:background="@android:color/transparent"
-            app:layout_constraintTop_toBottomOf="@+id/line3"
-            app:layout_constraintStart_toStartOf="@+id/textview_endTime"
-            app:layout_constraintEnd_toEndOf="@+id/textview_endTime"
-            android:onClick="@{activity::settingTime}"
-            />
-
-
         <Button
             android:visibility="gone"
             android:id="@+id/button_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
+            android:letterSpacing="0.05"
+            android:layout_marginTop="20dp"
             android:textAllCaps="false"
             android:text="@string/delete"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/coral"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line3"
             android:onClick="@{()->activity.removeBtnClick()}"
             />
 

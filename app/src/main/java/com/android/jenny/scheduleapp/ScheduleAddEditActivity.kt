@@ -1,19 +1,22 @@
 package com.android.jenny.scheduleapp
 
-import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.android.jenny.scheduleapp.databinding.ActivityScheduleAddEditBinding
 import com.android.jenny.scheduleapp.model.Schedule
+import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,7 +25,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         private const val TAG = "ScheduleAddEditActivity"
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
-    private lateinit var textViewName: TextView
+    private lateinit var textViewScheduleOnOff: TextView
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
@@ -98,7 +101,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     private fun getInputData(): Schedule {
         return Schedule(
-            textViewName.text.toString(),
+            textViewScheduleOnOff.text.toString(),
             "1",
             dayList.distinct().joinToString(","),
             startTimeButton.text.toString(),
@@ -106,18 +109,43 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         )
     }
 
+    fun setScheduleNameDialog() {
+        val editText = EditText(this)
+//        editText.setText(textViewScheduleOnOff.text)
+        editText.hint = textViewScheduleOnOff.text
+
+        val container = FrameLayout(this)
+        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        params.marginStart = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+        params.marginEnd = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+        editText.layoutParams = params
+        container.addView(editText)
+
+        val dialog = AlertDialog.Builder(this, R.style.AlertDialogStyle)
+        dialog.setTitle(R.string.edit_schedule_name).setView(container)
+
+        dialog.setPositiveButton("ok") { _, _ ->
+            val value = editText.text.toString()
+            textViewScheduleOnOff.text = value
+        }
+        dialog.setNegativeButton("cancel") { dialogView, _ ->
+            dialogView.cancel()
+        }
+        dialog.show()
+    }
+
     fun settingScheduleNameDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.edit_schedule_name)
 
         val input = EditText(this)
-        input.hint = textViewName.text
+        input.hint = textViewScheduleOnOff.text
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
         builder.setPositiveButton("Ok") { _, _ ->
             val editName = input.text.toString()
-            textViewName.text = editName
+            textViewScheduleOnOff.text = editName
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.cancel()
@@ -201,7 +229,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
         val timePicker = TimePickerDialog(
             this,
-            2,
+            3,
             { _, sHour, sMinute ->
                 setTime(view, sHour, sMinute) },
             hour,
@@ -209,6 +237,23 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             true
         )
         timePicker.show()
+    }
+
+    fun selectTime(view: View) {
+        timePickerDialog(view)
+    }
+
+    private fun timePickerDialog(view: View) {
+//        val cal: Calendar = Calendar.getInstance()
+//        val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
+//        val minutes: Int = cal.get(Calendar.MINUTE)
+
+        val timepicker = CustomTimePickerDialog(this,
+            { _, sHour, sMinute ->
+                setTime(view, sHour, sMinute) }, 0, 0,
+            true)
+        timepicker.setTitle(R.string.timeSetting)
+        timepicker.show()
     }
 
     private fun setTime(view: View, sHour: Int, sMinute: Int) {
@@ -221,7 +266,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun initEditScheduleData(data: Schedule) {
         Log.e(TAG, "initEditScheduleData - start")
         Log.e(TAG, "initEditData: $data")
-        textViewName.text = data.name
+        textViewScheduleOnOff.text = data.name
         startTimeButton.text = data.start
         endTimeButton.text = data.end
         getDayButtonBeforeEdit(data.day)
@@ -232,7 +277,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_add_edit)
         binding.activity = this@ScheduleAddEditActivity
 
-        textViewName = binding.textviewName
+        textViewScheduleOnOff = binding.textviewScheduleOnOff
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
 

@@ -32,7 +32,7 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
             notifyItemRangeChanged(position, data.size)
     }
 
-    inner class ScheduleViewHolder(var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ScheduleViewHolder(private var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(schedule: Schedule, position: Int) {
             binding.textviewScheduleName.text = schedule.name
