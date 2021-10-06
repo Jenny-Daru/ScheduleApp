@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
@@ -25,13 +27,15 @@ class ScheduleMainActivity : AppCompatActivity() {
     lateinit var binding: ActivityScheduleMainBinding
     private lateinit var scheduleListAdapter: ScheduleListAdapter
     private lateinit var scheduleAddEditResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var useAllSwitch: SwitchCompat
+//    private lateinit var useAllSwitch: SwitchCompat
+    private lateinit var useAllButton: ImageButton
     private lateinit var scheduleListRecyclerView: RecyclerView
+    private var useAllOnOff: Boolean = false
 
     private val list = mutableListOf<Schedule>()
     var schedules: MutableList<Schedule> = mutableListOf()
     private var allSchedule: AllSchedule? = null
-    var useAll = "y"
+    var useAll = "n"
     //
 
     companion object {
@@ -45,7 +49,7 @@ class ScheduleMainActivity : AppCompatActivity() {
 
         performDataBinding()
         initRecyclerView()
-        Log.e(TAG, "onCreate()_useAllSate:${useAllSwitch.isChecked}")
+        Log.e(TAG, "onCreate()_useAllSate:${useAllButton.isSelected}")
 
         scheduleAddEditResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) { result ->
@@ -117,7 +121,7 @@ class ScheduleMainActivity : AppCompatActivity() {
         Log.e(TAG, "json_1:$schedules")
         Log.e(TAG, "json_2:$allSchedule")
         Log.e(TAG, "onResume()_useAllState: ${allSchedule!!.use_all}")
-        setUseAllSwitchState(checkUseAllSwitchState(useAll))
+        setUseAllSwitchState(checkUseAllSwitchState(allSchedule!!.use_all))
     }
 
     fun makeAllScheduleJson() {
@@ -139,26 +143,6 @@ class ScheduleMainActivity : AppCompatActivity() {
         allScheduleJsonObject.put("use_all", useAll)
         allScheduleJsonObject.put("schedules", jsonScheduleList)
         Log.e(TAG, "allScheduleJsonObject: $allScheduleJsonObject")
-    }
-
-    private fun checkUseAllSwitchState(value: String): Boolean = (value == "y")
-
-    private fun setUseAllSwitchState(state: Boolean) {
-        when (state) {
-            true -> {
-                binding.switchUseAll.isChecked = true
-                allSchedule!!.use_all = "y"
-            }
-            false -> {
-//                scheduleListRecyclerView.setBackgroundColor(ContextCompat.getColor(this, R.color.grey_200) )
-//                scheduleListRecyclerView.isClickable = false
-                binding.switchUseAll.isChecked = false
-                allSchedule!!.use_all = "n"
-//                scheduleListRecyclerView.isEnabled = false
-//                setScheduleListRecyclerViewInteraction()
-//                setScheduleListRecyclerViewScroll()
-            }
-        }
     }
 
     fun openScheduleEditForResult(position: Int, schedule: Schedule) {
@@ -188,13 +172,39 @@ class ScheduleMainActivity : AppCompatActivity() {
     }
 
     fun useAllSwitchClick(view: View) {
-        val useAllChecked = useAllSwitch.isChecked
-        Log.e(TAG, "useAllSwitchClick: $useAllChecked")
-        useAllSwitch.setOnCheckedChangeListener { _, isChecked ->
-            setUseAllSwitchState(isChecked)
+        val useAllSelected = !useAllButton.isSelected
+        Log.e(TAG, "useAllSwitchClick: $useAllSelected")
+        setUseAllSwitchState(useAllSelected)
+//        useAllButton.setOnCheckedChangeListener { _, isChecked ->
+//            setUseAllSwitchState(isChecked)
 //            setScheduleInteraction(isChecked)
-        }
+//        }
     }
+
+    private fun checkUseAllSwitchState(value: String): Boolean = (value == "y")
+    private fun setUseAllSwitchState(state: Boolean) {
+        when (state) {
+            true -> {
+                useAllOnOff = true
+                useAllButton.isSelected = true
+                allSchedule!!.use_all = "y"
+                useAll = "y"
+                Log.e("setUseAllButton", "true:${useAllButton.isSelected}" )
+//                binding.buttonUseAll.isSelected = true
+            }
+            false -> {
+                useAllOnOff = false
+                useAllButton.isSelected = false
+                allSchedule!!.use_all = "n"
+                useAll = "n"
+                Log.e("setUseAllButton", "false:${useAllButton.isSelected}" )
+//                useAllOnOff = false
+//                binding.buttonUseAll.isSelected = false
+            }
+        }
+        Log.e("setUseAllButton", "useAll:${allSchedule!!.use_all}")
+    }
+
 
     private fun setScheduleListRecyclerViewInteraction() {
         scheduleListRecyclerView.addOnItemTouchListener(object: RecyclerView.SimpleOnItemTouchListener() {
@@ -222,7 +232,7 @@ class ScheduleMainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_main)
         binding.activity = this@ScheduleMainActivity
 
-        useAllSwitch = binding.switchUseAll
+        useAllButton = binding.buttonUseAll
         scheduleListRecyclerView = binding.recyclerviewScheduleList
     }
 }
