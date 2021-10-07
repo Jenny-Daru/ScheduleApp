@@ -78,13 +78,19 @@ class ScheduleMainActivity : AppCompatActivity() {
             }
         }
 
-        scheduleListAdapter.setOnEditClickListener(object: ScheduleListAdapter.EditClickListener{
-            override fun editClick(position: Int, schedule: Schedule) {
-                Log.e(TAG, "editButton Click")
-                Log.e(TAG, "editButton_position:$position, editButton_schedule:$schedule")
+        scheduleListAdapter.setScheduleItemClickListener(object: ScheduleListAdapter.OnScheduleItemClickListener {
+            override fun onScheduleItemClick(view: View, position: Int, schedule: Schedule) {
                 openScheduleEditForResult(position,schedule)
             }
         })
+
+//        scheduleListAdapter.setOnEditClickListener(object: ScheduleListAdapter.EditClickListener{
+//            override fun editClick(position: Int, schedule: Schedule) {
+//                Log.e(TAG, "editButton Click")
+//                Log.e(TAG, "editButton_position:$position, editButton_schedule:$schedule")
+//                openScheduleEditForResult(position,schedule)
+//            }
+//        })
     }
 
     override fun onResume() {
@@ -150,6 +156,7 @@ class ScheduleMainActivity : AppCompatActivity() {
         intent.putExtra("key","editScheduleKey")
         intent.putExtra("position", position)
         intent.putExtra(EDIT_SCHEDULE_DATA, schedule)
+        Log.e("Main_EditClick_schedule", "$schedule")
         scheduleAddEditResultLauncher.launch(intent)
     }
 

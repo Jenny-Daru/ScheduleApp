@@ -38,8 +38,10 @@
             android:textColor="@color/grey_900"
             android:textSize="12sp"
             android:text="Sun,Mon,Tue,Wed,Thu,Fri,Sat"
-            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_name"
-            app:layout_constraintStart_toStartOf="@+id/textview_schedule_name" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_time"
+            app:layout_constraintStart_toStartOf="@+id/textview_schedule_time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
         <TextView
             android:id="@+id/textview_schedule_time"
@@ -50,15 +52,14 @@
             android:text="16:00 - 20:30"
             android:textColor="@color/green_700"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_days"
-            app:layout_constraintStart_toStartOf="@+id/textview_schedule_days"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_schedule_name"
+            app:layout_constraintStart_toStartOf="@+id/textview_schedule_name"
             />
 
         <Button
             android:id="@+id/button_each_on_off"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="@null"
             android:background="@drawable/shape_circle_selected"
@@ -77,15 +78,15 @@
             app:layout_constraintStart_toStartOf="@id/button_each_on_off"
             app:layout_constraintEnd_toEndOf="@+id/button_each_on_off"
             app:layout_constraintTop_toBottomOf="@+id/button_each_on_off"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
         <ImageButton
             android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/arrow_next"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/button_next_selector"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

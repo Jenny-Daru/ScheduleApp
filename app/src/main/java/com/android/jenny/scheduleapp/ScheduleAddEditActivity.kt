@@ -54,9 +54,9 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             "editScheduleKey" -> {
                 binding.textviewScheduleAddTitle.setText(R.string.edit)
                 position = intent.getIntExtra("position", 1)
-                schedule = intent.getParcelableExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA)!!
+                val editScheduleData: Schedule = intent.getParcelableExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA)!!
                 binding.buttonRemove.visibility = View.VISIBLE
-                initEditScheduleData(schedule)
+                initEditScheduleData(editScheduleData)
             }
         }
     }
@@ -165,23 +165,49 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         }
     }
 
+    private fun setDayButton(days: String) {
+        val editDayList = days.split(",")
+    }
+
     private fun getDayButtonBeforeEdit(days: String) {
         // ,구분
         // id 반환
         var view = currentFocus
         var button: Button? = null
         val day_arr = days.split(",")
+        Log.e("day_arr", "$day_arr")
         for (x in day_arr.indices) {
             when (day_arr[x]) {
                 resources.getString(R.string.sun_day) -> {
                     sunButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    sunButton.isSelected = true
                     dayList.add("Sun")
                 }
-                resources.getString(R.string.mon_day) -> monButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                resources.getString(R.string.tues_day) -> tuesButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                resources.getString(R.string.wed_day) -> wedButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                resources.getString(R.string.thurs_day) -> thursButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                resources.getString(R.string.fri_day) -> friButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                resources.getString(R.string.mon_day) -> {
+                    monButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    monButton.isSelected = true
+                    dayList.add("Mon")
+                }
+                resources.getString(R.string.tues_day) -> {
+                    tuesButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    tuesButton.isSelected = true
+                    dayList.add("Tue")
+                }
+                resources.getString(R.string.wed_day) -> {
+                    wedButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    wedButton.isSelected = true
+                    dayList.add("Wed")
+                }
+                resources.getString(R.string.thurs_day) -> {
+                    thursButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    thursButton.isSelected = true
+                    dayList.add("Thu")
+                }
+                resources.getString(R.string.fri_day) -> {
+                    friButton.setBackgroundResource(R.drawable.shape_circle_selected)
+                    friButton.isSelected = true
+                    dayList.add("Fri")
+                }
             }
             Log.e(TAG, "day_arr_for: $day_arr[$x]: ${day_arr[x]}")
         }
@@ -247,7 +273,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 //        val cal: Calendar = Calendar.getInstance()
 //        val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
 //        val minutes: Int = cal.get(Calendar.MINUTE)
-
         val timepicker = CustomTimePickerDialog(this,
             { _, sHour, sMinute ->
                 setTime(view, sHour, sMinute) }, 0, 0,
@@ -269,6 +294,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         textViewScheduleOnOff.text = data.name
         startTimeButton.text = data.start
         endTimeButton.text = data.end
+//        setDayButton(data.day)
         getDayButtonBeforeEdit(data.day)
     }
 

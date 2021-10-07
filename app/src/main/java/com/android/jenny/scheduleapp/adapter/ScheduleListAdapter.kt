@@ -1,6 +1,7 @@
 package com.android.jenny.scheduleapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.jenny.scheduleapp.databinding.ItemScheduleBinding
@@ -39,11 +40,30 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
             binding.textviewScheduleDays.text = schedule.day
             binding.textviewScheduleTime.text = schedule.start.plus(" - ").plus(schedule.end)
 
-            binding.buttonEdit.setOnClickListener {
-                editClickListener.editClick(position, schedule)
+            binding.itemView.setOnClickListener {
+                // ToDo: Item 클릭 시 버튼 색 변경
+                binding.buttonEdit.isPressed = true
+                sItemClickListener.onScheduleItemClick(it, position, schedule)
             }
+
+//            binding.buttonEdit.setOnClickListener {
+//                editClickListener.editClick(position, schedule)
+//            }
         }
     }
+
+
+    interface OnScheduleItemClickListener {
+        fun onScheduleItemClick(view: View, position: Int, schedule: Schedule)
+    }
+
+    fun setScheduleItemClickListener(scheduleItemClickListener: OnScheduleItemClickListener) {
+        this.sItemClickListener = scheduleItemClickListener
+    }
+
+    private lateinit var sItemClickListener: OnScheduleItemClickListener
+
+
 
     interface EditClickListener {
         fun editClick(position: Int, schedule: Schedule)
