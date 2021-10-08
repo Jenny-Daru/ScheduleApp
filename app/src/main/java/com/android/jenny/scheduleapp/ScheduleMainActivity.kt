@@ -99,21 +99,21 @@ class ScheduleMainActivity : AppCompatActivity() {
         val schedule1 = Schedule(
             "A",
             "n",
-            "mon",
+            "Mon",
             "07:00",
             "20:00"
         )
         val schedule2 = Schedule(
             "B",
             "y",
-            "sun,mon,tue,wed,thu,fri,sat",
+            "Sun,Tue,Wed,Fri,Sat",
             "12:00",
             "00:00"
         )
         val schedule3 = Schedule(
             "C",
             "y",
-            "mon,fri",
+            "Mon,Fri",
             "08:00",
             "10:00"
         )
