@@ -1,19 +1,13 @@
 package com.android.jenny.scheduleapp
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.jenny.scheduleapp.adapter.ScheduleListAdapter
@@ -36,7 +30,6 @@ class ScheduleMainActivity : AppCompatActivity() {
     var schedules: MutableList<Schedule> = mutableListOf()
     private var allSchedule: AllSchedule? = null
     var useAll = "n"
-    //
 
     companion object {
         private const val TAG = "ScheduleMainActivity"
@@ -49,6 +42,7 @@ class ScheduleMainActivity : AppCompatActivity() {
 
         performDataBinding()
         initRecyclerView()
+        loadScheduleAllDataFromServer()
         Log.e(TAG, "onCreate()_useAllSate:${useAllButton.isSelected}")
 
         scheduleAddEditResultLauncher = registerForActivityResult(
@@ -93,9 +87,7 @@ class ScheduleMainActivity : AppCompatActivity() {
 //        })
     }
 
-    override fun onResume() {
-        super.onResume()
-        // TODO: step1 - load schedule from server
+    private fun loadScheduleAllDataFromServer() {
         val schedule1 = Schedule(
             "A",
             "n",
@@ -127,8 +119,45 @@ class ScheduleMainActivity : AppCompatActivity() {
         Log.e(TAG, "json_1:$schedules")
         Log.e(TAG, "json_2:$allSchedule")
         Log.e(TAG, "onResume()_useAllState: ${allSchedule!!.use_all}")
-        setUseAllSwitchState(checkUseAllSwitchState(allSchedule!!.use_all))
+        setUseAllButtonState(checkUseAllSwitchState(allSchedule!!.use_all))
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        // TODO: step1 - load schedule from server
+//        val schedule1 = Schedule(
+//            "A",
+//            "n",
+//            "Mon",
+//            "07:00",
+//            "20:00"
+//        )
+//        val schedule2 = Schedule(
+//            "B",
+//            "y",
+//            "Sun,Tue,Wed,Fri,Sat",
+//            "12:00",
+//            "00:00"
+//        )
+//        val schedule3 = Schedule(
+//            "C",
+//            "y",
+//            "Mon,Fri",
+//            "08:00",
+//            "10:00"
+//        )
+//        schedules.add(schedule1)
+//        schedules.add(schedule2)
+//        schedules.add(schedule3)
+//
+//        allSchedule = AllSchedule(useAll, schedules)
+//        scheduleListAdapter.data = allSchedule!!.schedules
+//
+//        Log.e(TAG, "json_1:$schedules")
+//        Log.e(TAG, "json_2:$allSchedule")
+//        Log.e(TAG, "onResume()_useAllState: ${allSchedule!!.use_all}")
+//        setUseAllSwitchState(checkUseAllSwitchState(allSchedule!!.use_all))
+//    }
 
     fun makeAllScheduleJson() {
         val schedules = allSchedule!!.schedules
@@ -166,22 +195,10 @@ class ScheduleMainActivity : AppCompatActivity() {
         scheduleAddEditResultLauncher.launch(intent)
     }
 
-    fun switchBtnClick(view: View) {
-        Log.e(TAG, "Main.switch.isSelected: ${view.isSelected}")
-        val state = !view.isSelected
-        if (state) {
-            view.isSelected = true
-            Log.e(TAG, "switch is on")
-        } else {
-            view.isSelected = false
-            Log.e(TAG, "switch is off")
-        }
-    }
-
-    fun useAllSwitchClick(view: View) {
+    fun useAllButtonClick(view: View) {
         val useAllSelected = !useAllButton.isSelected
         Log.e(TAG, "useAllSwitchClick: $useAllSelected")
-        setUseAllSwitchState(useAllSelected)
+        setUseAllButtonState(useAllSelected)
 //        useAllButton.setOnCheckedChangeListener { _, isChecked ->
 //            setUseAllSwitchState(isChecked)
 //            setScheduleInteraction(isChecked)
@@ -189,7 +206,7 @@ class ScheduleMainActivity : AppCompatActivity() {
     }
 
     private fun checkUseAllSwitchState(value: String): Boolean = (value == "y")
-    private fun setUseAllSwitchState(state: Boolean) {
+    private fun setUseAllButtonState(state: Boolean) {
         when (state) {
             true -> {
                 useAllOnOff = true
@@ -212,25 +229,11 @@ class ScheduleMainActivity : AppCompatActivity() {
         Log.e("setUseAllButton", "useAll:${allSchedule!!.use_all}")
     }
 
-
-    private fun setScheduleListRecyclerViewInteraction() {
-        scheduleListRecyclerView.addOnItemTouchListener(object: RecyclerView.SimpleOnItemTouchListener() {
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                return true
-            }
-        })
-    }
-
-    private fun setScheduleListRecyclerViewScroll() {
-        scheduleListRecyclerView.layoutManager?.canScrollVertically()
-    }
-
     private fun initRecyclerView() {
         Log.e(TAG, "initRecyclerView()")
 //        // TODO add: getScheduleListFromServer
         scheduleListAdapter = ScheduleListAdapter()
 //        scheduleListAdapter.data = allSchedule!!.schedules
-
         scheduleListRecyclerView.adapter = scheduleListAdapter
     }
 
@@ -239,7 +242,7 @@ class ScheduleMainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_main)
         binding.activity = this@ScheduleMainActivity
 
-        useAllButton = binding.buttonUseAll
+        useAllButton = binding.buttonScheduleUseAll
         scheduleListRecyclerView = binding.recyclerviewScheduleList
     }
 }

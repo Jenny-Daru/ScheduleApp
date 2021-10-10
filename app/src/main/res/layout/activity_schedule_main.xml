@@ -85,7 +85,7 @@
             />
 
         <ImageButton
-            android:id="@+id/button_use_all"
+            android:id="@+id/button_schedule_use_all"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="15dp"
@@ -96,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textview_schedule_on_off"
             android:contentDescription="@string/schedule_on_off"
-            android:onClick="@{activity::useAllSwitchClick}"
+            android:onClick="@{activity::useAllButtonClick}"
             />
 
         <View

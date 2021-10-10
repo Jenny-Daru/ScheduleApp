@@ -87,17 +87,19 @@
             android:onClick="@{() -> activity.settingScheduleNameDialog()}"
             />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_use_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp"
-            android:layout_marginEnd="20dp"
+        <ImageButton
+            android:id="@+id/button_schedule_use_each"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/switch_on_off_selector"
+            android:background="@android:color/transparent"
+            android:scaleType="fitEnd"
             app:layout_constraintBottom_toBottomOf="@+id/button_editName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textview_schedule_each_on_off"
-            android:onClick="@{activity::switchBtnClick}"
-            />
+            android:onClick="@{activity::useEachButtonClick}"
+            android:contentDescription="@string/schedule_on_off" />
 
         <Button
             android:id="@+id/button_editName"
@@ -346,7 +348,7 @@
             android:letterSpacing="0.05"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
-            android:text="@string/delete"
+            android:text= "@string/remove"
             android:textSize="14sp"
             android:textColor="@color/coral"
             android:background="@android:color/transparent"

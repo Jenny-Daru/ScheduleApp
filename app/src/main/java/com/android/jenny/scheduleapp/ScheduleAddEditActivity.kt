@@ -1,16 +1,12 @@
 package com.android.jenny.scheduleapp
 
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -26,6 +22,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
     private lateinit var textViewScheduleOnOff: TextView
+    private lateinit var useEachButton: ImageButton
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
 
@@ -36,14 +33,15 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private lateinit var thursButton: Button
     private lateinit var friButton: Button
     private lateinit var satButton: Button
-    private var btnArray = ArrayList<Button>()
 
-    private var flag: Boolean = false // Add: false, Edit: true
-    private lateinit var schedule: Schedule
     private lateinit var key: String
     private var position: Int? = null
-
     private var dayList = ArrayList<String>()
+    private var btnArray = ArrayList<Button>()
+
+    private var useEachOnOff = "y"
+    private var resultScheduleData: Schedule? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.e(TAG, "onCreate - start")
@@ -79,10 +77,12 @@ class ScheduleAddEditActivity: AppCompatActivity() {
                 intent.putExtra("key", "editScheduleKey")
                 intent.putExtra("position", position)
                 intent.putExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA, getResultEditScheduleData())
+                Log.e("saveForScheduleListActivity","$dayList")
             }
             "addScheduleKey" -> {
                 intent.putExtra("key", "addScheduleKey")
                 intent.putExtra(ScheduleMainActivity.ADD_SCHEDULE_DATA, getResultEditScheduleData())
+                Log.e("saveForScheduleListActivity","$dayList")
             }
         }
         setResult(RESULT_OK, intent)
@@ -103,7 +103,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun getResultEditScheduleData(): Schedule {
         return Schedule(
             textViewScheduleOnOff.text.toString(),
-            "1",
+            useEachOnOff,
             dayList.distinct().joinToString(","),
             startTimeButton.text.toString(),
             endTimeButton.text.toString()
@@ -154,6 +154,84 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         builder.show()
     }
 
+    fun useEachButtonClick(view: View) {
+        Log.e(TAG, "useEachButtonClick:${view.isSelected}")
+        val useSelected = !useEachButton.isSelected
+        Log.e(TAG, "useEachButtonClick: $useEachButton")
+//        setUseEachButton(useSelected)
+        if (useSelected) {
+            setUseEachButtonTrue()
+        } else {
+            setUseEachButtonFalse()
+        }
+    }
+
+    private fun checkUseEachButtonState(value: String): Boolean = (value == "y")
+    private fun setUseEachButtonTrue() {
+//        when (state) {
+//            true -> {
+                useEachButton.isSelected = true
+                useEachOnOff = "y"
+                setAllButtonEnabledTrue()
+                Log.e("setUseEachButtonTrue", "true:${useEachButton.isSelected}" )
+//            }
+//            false -> {
+//                useEachButton.isSelected = false
+//                useEachOnOff = "n"
+//                Log.e("setUseEachButton", "false:${useEachButton.isSelected}" )
+//            }
+//        }
+    }
+
+    private fun setUseEachButtonFalse() {
+        useEachButton.isSelected = false
+        useEachOnOff = "n"
+        setAllButtonEnabledFalse()
+        Log.e("setUseEachButtonFalse", "false:${useEachButton.isSelected}" )
+    }
+
+    private fun setAllButtonEnabledTrue() {
+        textViewScheduleOnOff.isEnabled = true
+        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_900))
+
+        binding.buttonEditName.isEnabled = true
+        binding.buttonEditName.setTextColor(this.getColor(R.color.green_700))
+
+        btnArray.forEach { it.isEnabled = true }
+
+        binding.textviewStartTime.setTextColor(this.getColor(R.color.grey_900))
+        binding.textviewEndTime.setTextColor(this.getColor(R.color.grey_900))
+        binding.textviewTimeTerm.setTextColor(this.getColor(R.color.grey_900))
+        startTimeButton.isEnabled = true
+        endTimeButton.isEnabled = true
+        startTimeButton.setTextColor(this.getColor(R.color.green_700))
+        endTimeButton.setTextColor(this.getColor(R.color.green_700))
+
+        binding.buttonRemove.isEnabled = true
+        binding.buttonRemove.setTextColor(this.getColor(R.color.coral))
+    }
+
+    private fun setAllButtonEnabledFalse() {
+        textViewScheduleOnOff.isEnabled = false
+        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_700))
+
+        binding.buttonEditName.isEnabled = false
+        binding.buttonEditName.setTextColor(this.getColor(R.color.grey_700))
+
+        btnArray.forEach { it.isEnabled = false }
+
+        binding.textviewStartTime.setTextColor(this.getColor(R.color.grey_700))
+        binding.textviewEndTime.setTextColor(this.getColor(R.color.grey_700))
+        binding.textviewTimeTerm.setTextColor(this.getColor(R.color.grey_700))
+        startTimeButton.isEnabled = false
+        endTimeButton.isEnabled = false
+        startTimeButton.setTextColor(this.getColor(R.color.grey_700))
+        endTimeButton.setTextColor(this.getColor(R.color.grey_700))
+
+        binding.buttonRemove.isEnabled = false
+        binding.buttonRemove.setTextColor(this.getColor(R.color.grey_700))
+    }
+
     fun switchBtnClick(view: View) {
         Log.e(TAG, "switch.isSelected: ${view.isSelected}")
         val state = !view.isSelected
@@ -164,100 +242,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             view.isSelected = false
             Log.e(TAG, "switch is off")
         }
-    }
-
-    fun dayBtnClick(view: View) {
-        Log.e(TAG,"dayBtnClick: ${view.isSelected}")
-
-        val selectedButtonText = getTextFromDayButton(view.id)
-        val selectedButtonState = !view.isSelected
-
-        Log.e("dayBtnClick", "$selectedButtonState")
-        val selectedButton = getButtonFromText(selectedButtonText)
-        if (selectedButtonState) {
-            selectedButton.isSelected = true
-            selectedButton.setBackgroundResource(R.drawable.shape_circle_selected)
-            dayList.add(selectedButtonText)
-        } else {
-            selectedButton.isSelected = false
-            selectedButton.setBackgroundResource(R.drawable.shape_circle)
-            dayList.remove(selectedButtonText)
-        }
-    }
-
-    private fun setDayBtnState(day: String) {
-        when (day) {
-            "Sun" -> sunButton.isSelected = !sunButton.isSelected
-            "Mon" -> monButton.isSelected = !monButton.isSelected
-            "Tue" -> tuesButton.isSelected = !tuesButton.isSelected
-            "Wed" -> wedButton.isSelected = !wedButton.isSelected
-            "Thu" -> thursButton.isSelected = !thursButton.isSelected
-            "Fri" -> friButton.isSelected = !friButton.isSelected
-            "Sat" -> satButton.isSelected = !satButton.isSelected
-        }
-    }
-
-    private fun getButtonFromText(day: String): Button {
-        lateinit var button: Button
-        when (day) {
-            "Sun" -> button = sunButton
-            "Mon" -> button = monButton
-            "Tue" -> button = tuesButton
-            "Wed" -> button = wedButton
-            "Thu" -> button = thursButton
-            "Fri" -> button = friButton
-            "Sat" -> button = satButton
-        }
-        return button
-    }
-
-     private fun checkDaysButtonFromEditData(days: String) {
-        val editDayArray = days.split(",").toMutableList()
-        Log.e("getDaysFromEditData", "days_param:$days")
-         for (x in editDayArray.indices) {
-             when (editDayArray[x]) {
-                "Sun" -> sunButton.isSelected = true
-                "Mon" -> monButton.isSelected = true
-                "Tue" -> tuesButton.isSelected = true
-                "Wed" -> wedButton.isSelected = true
-                "Thu" -> thursButton.isSelected = true
-                "Fri" -> friButton.isSelected = true
-                "Sat" -> satButton.isSelected = true
-             }
-//            when (it) {
-//              "Sun" -> sunButton.isSelected = true
-//              "Mon" -> monButton.isSelected = true
-//              "Tue" -> tuesButton.isSelected = true
-//              "Wed" -> wedButton.isSelected = true
-//              "Thu" -> thursButton.isSelected = true
-//              "Fri" -> friButton.isSelected = true
-//              "Sat" -> satButton.isSelected = true
-//            }
-            dayList.add(editDayArray[x])
-            Log.e("getDaysFromEditData", "dayList_add: $dayList")
-        }
-        daysBtnIsSelected()
-    }
-
-    private fun daysBtnIsSelected() {
-        btnArray.find { it.isSelected }?.apply { setBackgroundResource(R.drawable.shape_circle_selected) }
-        btnArray.find { !it.isSelected }?.apply { setBackgroundResource(R.drawable.shape_circle) }
-    }
-
-    fun daysBtnClick(view: View) {
-        val day = getTextFromDayButton(view.id)
-
-        view.isSelected = !view.isSelected
-        Log.e(TAG, "dayBtn_isSelected: ${view.isSelected}")
-        if (view.isSelected) {
-            view.textDirection
-            view.setBackgroundResource(R.drawable.shape_circle_selected)
-            dayList.add(day!!)
-        } else {
-            view.setBackgroundResource(R.drawable.shape_circle)
-            dayList.remove(day)
-        }
-        Log.e(TAG, "dayList: $dayList")
     }
 
     private fun getTextFromDayButton(id: Int): String {
@@ -275,66 +259,50 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         return day
     }
 
-    private fun getDayButtonBeforeEdit(days: String) {
-        val dayArray = days.split(",")
-        Log.e("day_arr", "$dayArray")
-        for (x in dayArray.indices) {
-            when (dayArray[x]) {
-                resources.getString(R.string.sun_day) -> {
-//                    sunButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    sunButton.isSelected = true
-                    dayList.add("Sun")
-                }
-                resources.getString(R.string.mon_day) -> {
-//                    monButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    monButton.isSelected = true
-                    dayList.add("Mon")
-                }
-                resources.getString(R.string.tues_day) -> {
-//                    tuesButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    tuesButton.isSelected = true
-                    dayList.add("Tue")
-                }
-                resources.getString(R.string.wed_day) -> {
-//                    wedButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    wedButton.isSelected = true
-                    dayList.add("Wed")
-                }
-                resources.getString(R.string.thurs_day) -> {
-//                    thursButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    thursButton.isSelected = true
-                    dayList.add("Thu")
-                }
-                resources.getString(R.string.fri_day) -> {
-//                    friButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    friButton.isSelected = true
-                    dayList.add("Fri")
-                }
-                resources.getString(R.string.sat_day) -> {
-                    satButton.setBackgroundResource(R.drawable.shape_circle_selected)
-                    satButton.isSelected = true
-                    dayList.add("Sat")
-                }
-            }
-            Log.e(TAG, "day_arr_for: $dayArray[$x]: ${dayArray[x]}")
+    private fun getButtonFromText(day: String): Button {
+        lateinit var button: Button
+        when (day) {
+            "Sun" -> button = sunButton
+            "Mon" -> button = monButton
+            "Tue" -> button = tuesButton
+            "Wed" -> button = wedButton
+            "Thu" -> button = thursButton
+            "Fri" -> button = friButton
+            "Sat" -> button = satButton
+        }
+        return button
+    }
+
+    fun dayBtnClick(view: View) {
+        Log.e(TAG,"dayBtnClick: ${view.isSelected}")
+        val selectedButtonState = !view.isSelected
+        Log.e("dayBtnClick_current_state", "$selectedButtonState")
+        val selectedButtonText = getTextFromDayButton(view.id)
+        val selectedButton = getButtonFromText(selectedButtonText)
+
+        if (selectedButtonState) {
+            selectedButton.isSelected = true
+            dayList.add(selectedButtonText)
+        } else {
+            selectedButton.isSelected = false
+            dayList.remove(selectedButtonText)
         }
     }
 
-    fun settingTime(view: View) {
-        val cal: Calendar = Calendar.getInstance()
-        val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
-        val minutes: Int = cal.get(Calendar.MINUTE)
+     private fun checkDaysButtonFromEditData(days: String) {
+        val editDayArray = days.split(",").toMutableList()
+        Log.e("checkDaysButtonFromEditData", "days_param:$days")
+         for (x in editDayArray.indices) {
+             val btn = getButtonFromText(editDayArray[x])
+             setDaysButtonState(btn)
+            dayList.add(editDayArray[x])
+            Log.e("checkDaysButtonFromEditData", "dayList: $dayList")
+        }
+    }
 
-        val timePicker = TimePickerDialog(
-            this,
-            3,
-            { _, sHour, sMinute ->
-                setTime(view, sHour, sMinute) },
-            hour,
-            minutes,
-            true
-        )
-        timePicker.show()
+    private fun setDaysButtonState(button: Button) {
+        btnArray.find { it == button }?.apply { isSelected = true }
+//        btnArray.find { it != button }?.apply { isSelected = false }
     }
 
     fun selectTime(view: View) {
@@ -355,8 +323,8 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     private fun setTime(view: View, sHour: Int, sMinute: Int) {
         when (view.id) {
-            R.id.button_startTime -> startTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
-            R.id.button_endTime -> endTimeButton.text = String.format("%02d:%02d", sHour, sMinute)
+            R.id.button_startTime -> { startTimeButton.text = String.format("%02d:%02d", sHour, sMinute) }
+            R.id.button_endTime -> { endTimeButton.text = String.format("%02d:%02d", sHour, sMinute) }
         }
     }
 
@@ -366,7 +334,15 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         textViewScheduleOnOff.text = data.name
         startTimeButton.text = data.start
         endTimeButton.text = data.end
-        checkDaysButtonFromEditData(data.day)
+        val state = checkUseEachButtonState(data.use)
+        if (state) {
+            checkDaysButtonFromEditData(data.day)
+            setUseEachButtonTrue()
+        } else {
+            setUseEachButtonFalse()
+        }
+//        setUseEachButton(checkUseEachButtonState(data.use))
+//        checkDaysButtonFromEditData(data.day)
 //        getDayButtonBeforeEdit(data.day)
     }
 
@@ -376,6 +352,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         binding.activity = this@ScheduleAddEditActivity
 
         textViewScheduleOnOff = binding.textviewScheduleEachOnOff
+        useEachButton = binding.buttonScheduleUseEach
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
 
