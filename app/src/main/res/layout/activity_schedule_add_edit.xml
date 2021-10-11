@@ -38,7 +38,7 @@
             />
 
         <TextView
-            android:id="@+id/textview_schedule_add_title"
+            android:id="@+id/textview_schedule_add_edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="0.05"
@@ -69,7 +69,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/title_bar_schedule_add_edit"
-            android:onClick="@{() -> activity.saveForScheduleListActivity()}"
+            android:onClick="@{() -> activity.saveButtonClick()}"
             />
 
         <TextView
@@ -157,7 +157,7 @@
             app:layout_constraintEnd_toStartOf="@+id/button_mon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -173,7 +173,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_sun"
             app:layout_constraintEnd_toStartOf="@+id/button_tues"
             app:layout_constraintTop_toTopOf="@+id/button_sun"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -189,7 +189,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_mon"
             app:layout_constraintEnd_toStartOf="@+id/button_wed"
             app:layout_constraintTop_toTopOf="@+id/button_mon"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -205,7 +205,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_tues"
             app:layout_constraintEnd_toStartOf="@+id/button_thurs"
             app:layout_constraintTop_toTopOf="@+id/button_tues"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -221,7 +221,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_wed"
             app:layout_constraintEnd_toStartOf="@+id/button_fri"
             app:layout_constraintTop_toTopOf="@+id/button_wed"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -238,7 +238,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_thurs"
             app:layout_constraintEnd_toStartOf="@+id/button_sat"
             app:layout_constraintTop_toTopOf="@+id/button_thurs"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <Button
@@ -253,7 +253,7 @@
             app:layout_constraintStart_toEndOf="@+id/button_fri"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/button_fri"
-            android:onClick="@{activity::dayBtnClick}"
+            android:onClick="@{activity::dayButtonClick}"
             />
 
         <TextView
@@ -311,7 +311,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_startTime"
             app:layout_constraintStart_toStartOf="@+id/textview_startTime"
             app:layout_constraintEnd_toEndOf="@+id/textview_startTime"
-            android:onClick="@{activity::selectTime}"
+            android:onClick="@{activity::scheduleTimesButtonClick}"
             />
 
         <Button
@@ -327,7 +327,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_endTime"
             app:layout_constraintStart_toStartOf="@+id/textview_endTime"
             app:layout_constraintEnd_toEndOf="@+id/textview_endTime"
-            android:onClick="@{activity::selectTime}"
+            android:onClick="@{activity::scheduleTimesButtonClick}"
             />
 
         <View
@@ -355,7 +355,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line3"
-            android:onClick="@{()->activity.removeBtnClick()}"
+            android:onClick="@{()->activity.removeButtonClick()}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

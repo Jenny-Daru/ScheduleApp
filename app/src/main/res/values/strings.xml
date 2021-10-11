@@ -2,8 +2,13 @@
     <string name="app_name">ScheduleApp</string>
 
     <string name="schedule_on_off">Schedule On/Off</string>
-    <string name="no_schedules">no Schedules</string>
+    <string name="schedule_add_message">Please Add schedule.</string>
     <string name="schedules">Schedules</string>
+
+    <string name="schedule_error">Schedule Error</string>
+    <string name="schedule_times_error_message">Please change times, then try again.</string>
+
+    <string name="schedule_days_error_message">please select day, then try again.</string>
 
     <string name="button_sun">S</string>
     <string name="button_mon">M</string>
@@ -27,9 +32,8 @@
     <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="delete">Delete</string>
     <string name="remove">Remove</string>
-
+    
     <string name="startTime">Start Time</string>
     <string name="endTime">End Time</string>
     <string name="timeSetting">Time Setting</string>

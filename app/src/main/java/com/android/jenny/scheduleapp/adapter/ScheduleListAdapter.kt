@@ -1,15 +1,36 @@
 package com.android.jenny.scheduleapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.jenny.scheduleapp.databinding.ItemScheduleBinding
+import com.android.jenny.scheduleapp.model.AllSchedule
 import com.android.jenny.scheduleapp.model.Schedule
+import java.lang.IndexOutOfBoundsException
 
 class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleViewHolder>() {
 
     var data = mutableListOf<Schedule>()
+
+    fun addItem(schedule: Schedule) {
+        data.add(schedule)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        try {
+            data.removeAt(position)
+            notifyDataSetChanged()
+//            notifyItemChanged(position, data.size)
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+            Log.e("ScheduleListAdapter","${e.message}")
+        }
+    }
+
+    fun getScheduleItem(): MutableList<Schedule> = data
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListAdapter.ScheduleViewHolder {
         return ScheduleViewHolder(ItemScheduleBinding.inflate(LayoutInflater.from(parent.context), parent, false ))
@@ -20,17 +41,6 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
     override fun onBindViewHolder(holder: ScheduleListAdapter.ScheduleViewHolder, position: Int) {
         val item = data[position]
         holder.bind(item, position)
-    }
-
-    fun addItem(schedule: Schedule) {
-        data.add(schedule)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(position: Int) {
-            data.removeAt(position)
-            notifyDataSetChanged()
-            notifyItemRangeChanged(position, data.size)
     }
 
     inner class ScheduleViewHolder(private var binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root) {
