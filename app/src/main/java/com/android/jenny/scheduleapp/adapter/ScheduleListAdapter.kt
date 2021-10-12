@@ -1,10 +1,13 @@
 package com.android.jenny.scheduleapp.adapter
 
+import android.content.res.Resources
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.jenny.scheduleapp.R
 import com.android.jenny.scheduleapp.databinding.ItemScheduleBinding
 import com.android.jenny.scheduleapp.model.AllSchedule
 import com.android.jenny.scheduleapp.model.Schedule
@@ -50,6 +53,18 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
             binding.textviewScheduleDays.text = schedule.day
             binding.textviewScheduleTime.text = schedule.start.plus(" - ").plus(schedule.end)
 
+            Log.e("ScheduleListAdapter", schedule.use)
+            when (schedule.use) {
+                "y" -> {
+                    binding.buttonEachOnOff.isSelected = true
+                    binding.textviewEachOnOff.setText(R.string.schedule_on)
+                }
+                "n" -> {
+                    binding.buttonEachOnOff.isSelected = false
+                    binding.textviewEachOnOff.setText(R.string.schedule_off)
+                }
+            }
+
             binding.itemView.setOnClickListener {
                 // ToDo: Item 클릭 시 버튼 색 변경
                 binding.buttonEdit.isPressed = true
@@ -62,7 +77,6 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
         }
     }
 
-
     interface OnScheduleItemClickListener {
         fun onScheduleItemClick(view: View, position: Int, schedule: Schedule)
     }
@@ -72,8 +86,6 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
     }
 
     private lateinit var sItemClickListener: OnScheduleItemClickListener
-
-
 
     interface EditClickListener {
         fun editClick(position: Int, schedule: Schedule)

@@ -64,7 +64,7 @@ class ScheduleMainActivity : AppCompatActivity() {
                         val data = result.data?.getParcelableExtra<Schedule>(EDIT_SCHEDULE_DATA)
                         Log.e(TAG, "edit_schedule_data: $data")
                         scheduleListAdapter.data[position!!] = data!!
-                        scheduleListAdapter.notifyDataSetChanged()
+                        scheduleListAdapter.notifyItemChanged(position)
                     }
                     "removeScheduleKey" -> {
                         Log.e(TAG, "remove_schedule_position: $position")

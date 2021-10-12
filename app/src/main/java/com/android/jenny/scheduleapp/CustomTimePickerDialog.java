@@ -26,7 +26,7 @@ public class CustomTimePickerDialog extends TimePickerDialog {
 
     public CustomTimePickerDialog(Context context, OnTimeSetListener listener,
                                   int hourOfDay, int minute, boolean is24HourView) {
-        super(context, TIME_PICKER_THEME, null, hourOfDay, minute / TIME_PICKER_INTERVAL, is24HourView);
+        super(context, R.style.TimePickerThemeOne, null, hourOfDay, minute / TIME_PICKER_INTERVAL, is24HourView);
         lastHour = hourOfDay;
         lastMinute = minute;
         this.listener = listener;

@@ -6,13 +6,13 @@
     <color name="green_100">#CDEE9A</color>
     <color name="grey_900">#2C2D35</color>
 
-    <color name="grey_700">#BFBFBF</color>
     <color name="grey_200">#F0F0F0</color>
-    <color name="grey_400">#F7F7F7</color>
+    <color name="grey_700">#BFBFBF</color>
+    <color name="grey_400">#898989</color>
 
     <color name="navy_700">#185961</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="green_grey_1">#C7DFC7</color>
     <color name="green_grey_2">#C3CFC5</color>
 

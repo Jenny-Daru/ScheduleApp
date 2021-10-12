@@ -4,13 +4,11 @@
     <item
         android:state_selected="false"
         android:state_enabled="false"
-        android:color="@color/grey_900"
-        android:drawable="@drawable/shape_circle" />
+        android:drawable="@drawable/schedule_day_off" />
 
     <item
         android:state_selected="true"
         android:state_enabled="true"
-        android:color="@color/white"
-        android:drawable="@drawable/shape_circle_selected" />
+        android:drawable="@drawable/schedule_day_on" />
 
 </selector>

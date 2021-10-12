@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
@@ -61,24 +62,24 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="20dp"
+            android:background="@drawable/schedule_day_on_off_selector"
             android:backgroundTint="@null"
-            android:background="@drawable/shape_circle_selected"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textview_each_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="0.05"
-            android:text="on"
+            android:text="off"
+            android:textSize="12sp"
             android:textColor="@color/grey_900"
             app:layout_constraintStart_toStartOf="@id/button_each_on_off"
             app:layout_constraintEnd_toEndOf="@+id/button_each_on_off"
-            app:layout_constraintTop_toBottomOf="@+id/button_each_on_off"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textview_schedule_days"
+            app:layout_constraintBottom_toBottomOf="@+id/textview_schedule_days"
             />
 
         <ImageButton

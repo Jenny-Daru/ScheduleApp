@@ -2,6 +2,8 @@ package com.android.jenny.scheduleapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.text.InputType
 import android.util.Log
 import android.view.View
@@ -13,12 +15,23 @@ import androidx.databinding.DataBindingUtil
 import com.android.jenny.scheduleapp.databinding.ActivityScheduleAddEditBinding
 import com.android.jenny.scheduleapp.model.Schedule
 import java.util.*
+import kotlin.Comparator
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ScheduleAddEditActivity: AppCompatActivity() {
     companion object {
         private const val TAG = "ScheduleAddEditActivity"
-        private val SCHEDULE_DAYS = mutableListOf("Sun","Mon","Tue","Wed","Thu","Fri","Sat")
+        private val SCHEDULE_DAYS = mutableListOf("Sun","Mon","Tue","Wed","Thur","Fri","Sat")
+        private val SCHEDULE_DAYS_ORDER: HashMap<String, Int> = hashMapOf(
+            "Sun" to 0,
+            "Mon" to 1,
+            "Tue" to 2,
+            "Wed" to 3,
+            "Thur" to 4,
+            "Fri" to 5,
+            "Sat" to 6
+        )
         private const val SCHEDULE_TIMES = "00:00"
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
@@ -115,12 +128,10 @@ class ScheduleAddEditActivity: AppCompatActivity() {
                 intent.putExtra("key", "editScheduleKey")
                 intent.putExtra("position", position)
                 intent.putExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA, getResultEditScheduleData())
-                Log.e("saveForScheduleListActivity","$dayList")
             }
             "addScheduleKey" -> {
                 intent.putExtra("key", "addScheduleKey")
                 intent.putExtra(ScheduleMainActivity.ADD_SCHEDULE_DATA, getResultEditScheduleData())
-                Log.e("saveForScheduleListActivity","$dayList")
             }
         }
         setResult(RESULT_OK, intent)
@@ -132,10 +143,22 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         return Schedule(
             textViewScheduleOnOff.text.toString(),
             useEachOnOff,
-            dayList.distinct().joinToString(","),
+            sortScheduleDays(dayList),
             startTimeButton.text.toString(),
             endTimeButton.text.toString()
         )
+    }
+
+    private fun sortScheduleDays(days: MutableList<String>): String {
+        Log.e(TAG, "sortScheduleDays_copy_start: $days")
+        val comparator = Comparator {o1: String, o2: String ->
+            return@Comparator SCHEDULE_DAYS_ORDER[o1]!! - SCHEDULE_DAYS_ORDER[o2]!!
+        }
+        val copy = mutableListOf<String>().apply { addAll(days) }
+        Log.e(TAG,"sortScheduleDays_copy_before: $copy")
+        copy.sortWith(comparator)
+        Log.e(TAG, "sortScheduleDays_copy_after: $copy")
+        return copy.distinct().joinToString(",")
     }
 
     fun setScheduleNameDialog() {
@@ -153,11 +176,11 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         val dialog = AlertDialog.Builder(this, R.style.AlertDialogStyle)
         dialog.setTitle(R.string.edit_schedule_name).setView(container)
 
-        dialog.setPositiveButton("ok") { _, _ ->
+        dialog.setPositiveButton(R.string.ok) { _, _ ->
             val value = editText.text.toString()
             textViewScheduleOnOff.text = value
         }
-        dialog.setNegativeButton("cancel") { dialogView, _ ->
+        dialog.setNegativeButton(R.string.cancel) { dialogView, _ ->
             dialogView.cancel()
         }
         dialog.show()
@@ -166,17 +189,28 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     fun settingScheduleNameDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.edit_schedule_name)
+        builder.setMessage("1-15 characters long")
+
+        val textView = TextView(this)
+        textView.text = "1-15 characters long"
+        textView.setTextColor(this.getColor(R.color.coral))
+        builder.setView(textView)
 
         val input = EditText(this)
         input.hint = textViewScheduleOnOff.text
         input.inputType = InputType.TYPE_CLASS_TEXT
+
+        val filterArray = arrayOfNulls<InputFilter>(1)
+        filterArray[0] = LengthFilter(20)
+        input.filters = filterArray
+
         builder.setView(input)
 
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setPositiveButton(R.string.ok) { _, _ ->
             val editName = input.text.toString()
             textViewScheduleOnOff.text = editName
         }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.cancel()
         }
         builder.show()
@@ -208,11 +242,10 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     }
 
     private fun setAllButtonEnabledTrue() {
-        textViewScheduleOnOff.isEnabled = true
-        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_900))
-
-        binding.buttonEditName.isEnabled = true
-        binding.buttonEditName.setTextColor(this.getColor(R.color.green_700))
+//        textViewScheduleOnOff.isEnabled = true
+//        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_900))
+//        binding.buttonEditName.isEnabled = true
+//        binding.buttonEditName.setTextColor(this.getColor(R.color.green_700))
 
         btnArray.forEach { it.isEnabled = true }
 
@@ -229,11 +262,10 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     }
 
     private fun setAllButtonEnabledFalse() {
-        textViewScheduleOnOff.isEnabled = false
-        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_700))
-
-        binding.buttonEditName.isEnabled = false
-        binding.buttonEditName.setTextColor(this.getColor(R.color.grey_700))
+//        textViewScheduleOnOff.isEnabled = false
+//        textViewScheduleOnOff.setTextColor(this.getColor(R.color.grey_700))
+//        binding.buttonEditName.isEnabled = false
+//        binding.buttonEditName.setTextColor(this.getColor(R.color.grey_700))
 
         btnArray.forEach { it.isEnabled = false }
 
@@ -268,13 +300,13 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun getTextFromDayButton(id: Int): String {
         lateinit var day: String
         when (id) {
-            sunButton.id -> day = "Sun"
-            monButton.id -> day = "Mon"
-            tuesButton.id -> day = "Tue"
-            wedButton.id -> day = "Wed"
-            thursButton.id -> day = "Thu"
-            friButton.id -> day = "Fri"
-            satButton.id -> day = "Sat"
+            sunButton.id -> day = this.getString(R.string.sun_day)
+            monButton.id -> day = this.getString(R.string.mon_day)
+            tuesButton.id -> day = this.getString(R.string.tues_day)
+            wedButton.id -> day = this.getString(R.string.wed_day)
+            thursButton.id -> day = this.getString(R.string.thurs_day)
+            friButton.id -> day = this.getString(R.string.fri_day)
+            satButton.id -> day = this.getString(R.string.sat_day)
         }
         Log.e("getTextFromDayButton()","day:$day")
         return day
@@ -283,13 +315,13 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun getButtonFromText(day: String): Button {
         lateinit var button: Button
         when (day) {
-            "Sun" -> button = sunButton
-            "Mon" -> button = monButton
-            "Tue" -> button = tuesButton
-            "Wed" -> button = wedButton
-            "Thu" -> button = thursButton
-            "Fri" -> button = friButton
-            "Sat" -> button = satButton
+            this.getString(R.string.sun_day) -> button = sunButton
+            this.getString(R.string.mon_day) -> button = monButton
+            this.getString(R.string.tues_day) -> button = tuesButton
+            this.getString(R.string.wed_day) -> button = wedButton
+            this.getString(R.string.thurs_day) -> button = thursButton
+            this.getString(R.string.fri_day) -> button = friButton
+            this.getString(R.string.sat_day) -> button = satButton
         }
         return button
     }
