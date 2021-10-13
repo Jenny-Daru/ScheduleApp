@@ -6,10 +6,13 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="TimePickerThemeOne" parent="Theme.AppCompat.Light">
-        <item name="android:timePickerDialogTheme">@style/TimePickerDialogStyle</item>
+    <style name="NumberPickerStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/green_700</item>
+        <item name="android:textColorPrimary">@color/grey_900</item>
     </style>
-    <style name="TimePickerDialogStyle" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/green_700</item>
+
+    <style name="MyTimePickerWidgetStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorControlNormal">@color/green_700</item>
+        <item name="android:textColorPrimary">@color/grey_900</item>
     </style>
 </resources>

@@ -3,8 +3,11 @@ package com.android.jenny.scheduleapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,8 +39,6 @@ class ScheduleMainActivity : AppCompatActivity() {
         const val ADD_SCHEDULE_DATA = "addScheduleData"
         const val EDIT_SCHEDULE_DATA = "editScheduleData"
     }
-
-    //TODO: Schedule array index 15
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,21 +110,21 @@ class ScheduleMainActivity : AppCompatActivity() {
         val schedule1 = Schedule(
             "A",
             "n",
-            "Mon",
+            "mon",
             "07:00",
             "20:00"
         )
         val schedule2 = Schedule(
             "B",
             "y",
-            "Sun,Tue,Wed,Fri,Sat",
+            "sun,tue,wed,fri,sat",
             "12:00",
             "00:00"
         )
         val schedule3 = Schedule(
             "C",
             "y",
-            "Mon,Fri",
+            "mon,fri",
             "08:00",
             "10:00"
         )
@@ -176,10 +177,33 @@ class ScheduleMainActivity : AppCompatActivity() {
         scheduleAddEditResultLauncher.launch(intent)
     }
 
-    fun openScheduleAddForResult() {
+    private fun openScheduleAddForResult() {
         val intent = Intent(this@ScheduleMainActivity, ScheduleAddEditActivity::class.java)
         intent.putExtra("key","addScheduleKey")
         scheduleAddEditResultLauncher.launch(intent)
+    }
+
+    fun scheduleAddButtonClick() {
+        // TODO: check schedule list
+        val scheduleListSize = scheduleListAdapter.itemCount
+        Log.e("scheduleAddButtonClick", "scheduleList_size:$scheduleListSize")
+        if (scheduleListAdapter.itemCount == 15) {
+            //TODO: AlertDialog
+            showDialogScheduleAddError()
+        } else {
+            openScheduleAddForResult()
+        }
+    }
+
+    private fun showDialogScheduleAddError() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.schedule_add_error)
+        builder.setMessage(R.string.schedule_add_error_message)
+
+        builder.setPositiveButton(R.string.ok) { dialog, _ ->
+            dialog.cancel()
+        }
+        builder.show()
     }
 
     fun useAllButtonClick(view: View) {

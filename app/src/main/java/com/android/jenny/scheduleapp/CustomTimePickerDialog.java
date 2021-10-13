@@ -20,13 +20,13 @@ public class CustomTimePickerDialog extends TimePickerDialog {
     private TimePicker timePicker;
     private final OnTimeSetListener listener;
 
-    private int lastHour = -1;
-    private int lastMinute = -1;
+     int lastHour = -1;
+     int lastMinute = -1;
 
 
     public CustomTimePickerDialog(Context context, OnTimeSetListener listener,
                                   int hourOfDay, int minute, boolean is24HourView) {
-        super(context, R.style.TimePickerThemeOne, null, hourOfDay, minute / TIME_PICKER_INTERVAL, is24HourView);
+        super(context, TIME_PICKER_THEME, null, hourOfDay, minute / TIME_PICKER_INTERVAL, is24HourView);
         lastHour = hourOfDay;
         lastMinute = minute;
         this.listener = listener;
@@ -59,13 +59,11 @@ public class CustomTimePickerDialog extends TimePickerDialog {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         try {
-            Class<?> classForid = Class.forName("com.android.internal.R$id");
-            Field timePickerField = classForid.getField("timePicker");
+            Class<?> classParent = Class.forName("com.android.internal.R$id");
+            Field timePickerField = classParent.getField("timePicker");
+            Field fieldMinute = classParent.getField("minute");
             timePicker = (TimePicker) findViewById(timePickerField.getInt(null));
-            Field field = classForid.getField("minute");
-
-            NumberPicker minuteSpinner = (NumberPicker) timePicker
-                    .findViewById(field.getInt(null));
+            NumberPicker minuteSpinner = (NumberPicker) timePicker.findViewById(fieldMinute.getInt(null));
             minuteSpinner.setMinValue(0);
             minuteSpinner.setMaxValue((60 / TIME_PICKER_INTERVAL) - 1);
             List<String> displayedValues = new ArrayList<>();
