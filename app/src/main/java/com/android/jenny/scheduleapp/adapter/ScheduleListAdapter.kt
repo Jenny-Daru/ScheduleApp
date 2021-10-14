@@ -1,11 +1,13 @@
 package com.android.jenny.scheduleapp.adapter
 
 import android.content.res.Resources
+import android.graphics.Color
 import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.android.jenny.scheduleapp.R
 import com.android.jenny.scheduleapp.databinding.ItemScheduleBinding
@@ -50,7 +52,7 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
 
         fun bind(schedule: Schedule, position: Int) {
             binding.textviewScheduleName.text = schedule.name
-            binding.textviewScheduleDays.text = schedule.day
+            binding.textviewScheduleDays.text = schedule.day.uppercase()
             binding.textviewScheduleTime.text = schedule.start.plus(" - ").plus(schedule.end)
 
             Log.e("ScheduleListAdapter", schedule.use)
@@ -58,10 +60,12 @@ class ScheduleListAdapter(): RecyclerView.Adapter<ScheduleListAdapter.ScheduleVi
                 "y" -> {
                     binding.buttonEachOnOff.isSelected = true
                     binding.textviewEachOnOff.setText(R.string.schedule_on)
+                    binding.textviewEachOnOff.setTextColor(Color.rgb(141,183,74))
                 }
                 "n" -> {
                     binding.buttonEachOnOff.isSelected = false
                     binding.textviewEachOnOff.setText(R.string.schedule_off)
+                    binding.textviewEachOnOff.setTextColor(Color.rgb(137,137,137))
                 }
             }
 

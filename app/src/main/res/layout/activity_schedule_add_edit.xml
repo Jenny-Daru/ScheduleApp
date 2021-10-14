@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/button_arrow_back"
             android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/title_bar_schedule_add_edit"
@@ -317,7 +317,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_startTime"
             app:layout_constraintStart_toStartOf="@+id/textview_startTime"
             app:layout_constraintEnd_toEndOf="@+id/textview_startTime"
-            android:onClick="@{activity::scheduleTimesButtonClick}"
+            android:onClick="@{activity::scheduleTimepickerButtonClick}"
             />
 
         <Button
@@ -333,7 +333,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_endTime"
             app:layout_constraintStart_toStartOf="@+id/textview_endTime"
             app:layout_constraintEnd_toEndOf="@+id/textview_endTime"
-            android:onClick="@{activity::scheduleTimesButtonClick}"
+            android:onClick="@{activity::scheduleTimepickerButtonClick}"
             />
 
         <View
@@ -348,36 +348,113 @@
 
         <Button
             android:visibility="gone"
-            android:id="@+id/button_remove"
+            android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="0.05"
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
-            android:text= "@string/remove"
+            android:text= "@string/delete"
             android:textSize="14sp"
             android:textColor="@color/coral"
             android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line3"
-            android:onClick="@{()->activity.removeButtonClick()}"
+            android:onClick="@{()->activity.deleteButtonClick()}"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:id="@+id/timepicker_schedule_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
+            <View
+                android:id="@+id/timepicker_divider_title_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/grey_200"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_textview_title"
                 />
 
+            <TextView
+                android:id="@+id/timepicker_textview_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/timeSetting"
+                android:textSize="16sp"
+                android:textColor="@color/green_700"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_divider_title_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
+            <View
+                android:id="@+id/timepicker_divider_title_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_200"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_textview_title"
+                />
+
+            <TimePicker
+                android:theme="@style/TimePickerStyle"
+                android:id="@+id/timepicker_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_divider_title_bottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <View
+                android:id="@+id/timepicker_divider_button_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_200"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_schedule"
+                />
+
+            <Button
+                android:id="@+id/timepicker_button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/green_700"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@+id/timepicker_button_done"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/timepicker_button_done"
+                android:onClick="@{() -> activity.scheduleTimePickerCancelClick()}"
+                />
+
+            <Button
+                android:id="@+id/timepicker_button_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/done"
+                android:textAllCaps="false"
+                android:textColor="@color/green_700"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/timepicker_divider_button_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="@{() -> activity.scheduleTimePickerDoneClick()}"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

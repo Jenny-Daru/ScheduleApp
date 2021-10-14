@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/arrow_next_press" />
+        android:drawable="@drawable/button_arrow_next_press" />
 
     <item
-        android:drawable="@drawable/arrow_next" />
+        android:drawable="@drawable/button_arrow_next" />
 </selector>

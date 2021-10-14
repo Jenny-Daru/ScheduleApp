@@ -20,20 +20,20 @@
     <string name="button_fri">F</string>
     <string name="button_sat">S</string>
 
-    <string name="sun_day">Sun</string>
-    <string name="mon_day">Mon</string>
-    <string name="tues_day">Tue</string>
-    <string name="wed_day">Wed</string>
-    <string name="thurs_day">Thur</string>
-    <string name="fri_day">Fri</string>
-    <string name="sat_day">Sat</string>
+    <string name="sun_day">sun</string>
+    <string name="mon_day">mon</string>
+    <string name="tues_day">tue</string>
+    <string name="wed_day">wed</string>
+    <string name="thurs_day">thur</string>
+    <string name="fri_day">fri</string>
+    <string name="sat_day">sat</string>
 
     <string name="arrow_back">Back</string>
     <string name="arrow_next">Next</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
-    <string name="remove">Remove</string>
+    <string name="delete">Delete</string>
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
@@ -52,8 +52,10 @@
     <string name="schedule_add_error">Can\'t Add Schedule</string>
     <string name="schedule_add_error_message">You have reached the maximum number of schedules allowed.</string>
 
-    <string name="schedule_remove_title">Remove Schedule</string>
-    <string name="schedule_remove_message">Are you sure want to remove this schedule?</string>
+    <string name="schedule_delete_title">Delete Schedule</string>
+    <string name="schedule_delete_message">Delete this schedule?</string>
+
+    <string name="done">Done</string>
 
     <string name="time1">12A</string>
     <string name="time2">4A</string>

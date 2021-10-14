@@ -1,15 +1,13 @@
 package com.android.jenny.scheduleapp
 
-import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.InputType
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,29 +19,31 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.widget.NumberPicker
-import android.widget.NumberPicker.OnValueChangeListener
+import androidx.core.content.ContextCompat
 
 
 class ScheduleAddEditActivity: AppCompatActivity() {
     companion object {
         private const val TAG = "ScheduleAddEditActivity"
-        private val SCHEDULE_DAYS = mutableListOf("Sun","Mon","Tue","Wed","Thur","Fri","Sat")
+        private val SCHEDULE_DAYS = mutableListOf("sun","mon","tue","wed","thur","fri","sat")
         private val SCHEDULE_DAYS_ORDER: HashMap<String, Int> = hashMapOf(
-            "Sun" to 0,
-            "Mon" to 1,
-            "Tue" to 2,
-            "Wed" to 3,
-            "Thur" to 4,
-            "Fri" to 5,
-            "Sat" to 6
+            "sun" to 0,
+            "mon" to 1,
+            "tue" to 2,
+            "wed" to 3,
+            "thur" to 4,
+            "fri" to 5,
+            "sat" to 6
         )
         private const val SCHEDULE_TIMES = "00:00"
+        private const val TIME_PICKER_INTERVAL = 10
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
     private lateinit var textViewScheduleOnOff: TextView
     private lateinit var useEachButton: ImageButton
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
+    private lateinit var scheduleTimePicker: TimePicker
 
     private lateinit var sunButton: Button
     private lateinit var monButton: Button
@@ -62,6 +62,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private var btnArray = ArrayList<Button>()
 
     private var useEachOnOff = "y"
+    private lateinit var timeClickButtonText: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.e(TAG, "onCreate - start")
@@ -77,25 +78,23 @@ class ScheduleAddEditActivity: AppCompatActivity() {
                 binding.textviewScheduleAddEditTitle.setText(R.string.edit)
                 position = intent.getIntExtra("position", 1)
                 val editScheduleData: Schedule = intent.getParcelableExtra(ScheduleMainActivity.EDIT_SCHEDULE_DATA)!!
-                binding.buttonRemove.visibility = View.VISIBLE
+                binding.buttonDelete.visibility = View.VISIBLE
                 loadEditScheduleData(editScheduleData)
             }
         }
     }
 
-    fun removeButtonClick() {
+    fun deleteButtonClick() {
         Log.e(TAG, "removeBtnClick - start")
-        showRemoveAlertDialog()
-//        removeForScheduleListActivity()
+        showDeleteAlertDialog()
     }
 
-   //TODO: removeDialog
-    private fun showRemoveAlertDialog() {
+    private fun showDeleteAlertDialog() {
        val builder = AlertDialog.Builder(this)
-       builder.setTitle(R.string.schedule_remove_title)
-       builder.setMessage(R.string.schedule_remove_message)
+       builder.setTitle(R.string.schedule_delete_title)
+       builder.setMessage(R.string.schedule_delete_message)
 
-       builder.setPositiveButton(R.string.ok) { _, _ ->
+       builder.setPositiveButton(R.string.yes) { _, _ ->
            removeForScheduleListActivity()
        }
        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -121,7 +120,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             builder.setTitle(R.string.schedule_error)
             builder.setMessage(R.string.schedule_times_error_message)
 
-            builder.setPositiveButton("Ok") { dialog, _ ->
+            builder.setPositiveButton(R.string.yes) { dialog, _ ->
                 dialog.cancel()
             }
             builder.show()
@@ -130,7 +129,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             builder.setTitle(R.string.schedule_error)
             builder.setMessage(R.string.schedule_days_error_message)
 
-            builder.setPositiveButton("Ok") { dialog, _ ->
+            builder.setPositiveButton(R.string.yes) { dialog, _ ->
                 dialog.cancel()
             }
             builder.show()
@@ -245,8 +244,8 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         startTimeButton.setTextColor(this.getColor(R.color.green_700))
         endTimeButton.setTextColor(this.getColor(R.color.green_700))
 
-        binding.buttonRemove.isEnabled = true
-        binding.buttonRemove.setTextColor(this.getColor(R.color.coral))
+        binding.buttonDelete.isEnabled = true
+        binding.buttonDelete.setTextColor(this.getColor(R.color.coral))
     }
 
     private fun setAllButtonEnabledFalse() {
@@ -260,8 +259,8 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         startTimeButton.setTextColor(this.getColor(R.color.grey_700))
         endTimeButton.setTextColor(this.getColor(R.color.grey_700))
 
-        binding.buttonRemove.isEnabled = false
-        binding.buttonRemove.setTextColor(this.getColor(R.color.grey_700))
+        binding.buttonDelete.isEnabled = false
+        binding.buttonDelete.setTextColor(this.getColor(R.color.grey_700))
     }
 
     fun dayButtonClick(view: View) {
@@ -324,81 +323,103 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.find { it == button }?.apply { isSelected = true }
     }
 
-    fun scheduleTimesButtonClick(view: View) {
-//        showTimePickerDialog(view)
-        showNumberPickerDialog(view)
+    private fun setEnabledFalseRemainder() {
+        binding.buttonSave.isEnabled = false
+        binding.buttonSave.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
+        binding.buttonScheduleUseEach.isEnabled = false
+        binding.textviewScheduleEachOnOff.isEnabled = false
+        binding.textviewScheduleEachOnOff.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
+        binding.buttonEditName.isEnabled = false
+        binding.buttonEditName.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
+        btnArray.forEach { it.isEnabled = false }
+        binding.buttonDelete.isEnabled = false
+        binding.buttonDelete.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
     }
 
-    fun showNumberPickerDialog(view2: View) {
-        val interval = 10
-        val hourList = (0..24).toList()
-        val hourStrConvertList = hourList.map {it.toString()}
-        Log.e("hourStrConvertList", "$hourStrConvertList")
-
-        val dialog = AlertDialog.Builder(this).create()
-        val dialogLayout: LayoutInflater = LayoutInflater.from(this)
-        val dialogView: View = dialogLayout.inflate(R.layout.dialog_timepicker, null)
-        val hour: NumberPicker = dialogView.findViewById(R.id.timepicker_hour)
-        val minute: NumberPicker = dialogView.findViewById(R.id.timepicker_minute)
-        val okButton: Button = dialogView.findViewById(R.id.timepicker_button_ok)
-        val cancelButton: Button = dialogView.findViewById(R.id.timepicker_button_cancel)
-
-        hour.run {
-            minValue = 0
-            maxValue = hourStrConvertList.size - 1
-            displayedValues = hourStrConvertList.toTypedArray()
-        }
-        minute.run {
-            minValue = 0
-            maxValue = ((60 / interval) - 1)
-            val minuteStrConvertList = ArrayList<String>()
-            minuteStrConvertList.let {
-                var i = 0
-                while (i <60) {
-                    it.add(i.toString())
-                    i += interval
-                }
-            }
-            Log.e("minuteStrConvertList", "$minuteStrConvertList")
-            displayedValues = minuteStrConvertList.toTypedArray()
-        }
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
-            dialog.cancel()
-        }
-        okButton.setOnClickListener {
-        val formatTime = String.format("%02d", hour.value).plus(":").plus(String.format("%02d", minute.value))
-        Log.e("formatTime", "$formatTime")
-//            dialog.dismiss()
-//            dialog.cancel()
-            Log.e("okbutton","1")
-            Log.e("view2.id", "${view2.id}")
-            Log.e("button_startTime", "${R.id.button_startTime}")
-            when (view2.id) {
-                startTimeButton.id -> {
-                    startTimeButton.text = String.format("%02d", hour.value).plus(":").plus(String.format("%02d", minute.value))
-                }
-                endTimeButton.id -> {
-                    endTimeButton.text = String.format("%02d", hour.value).plus(":").plus(String.format("%02d", minute.value))
-                }
-            }
-        }
-        dialog.setView(dialogView)
-        dialog.show()
+    private fun setEnabledTrueRemainder() {
+        binding.buttonSave.isEnabled = true
+        binding.buttonSave.setTextColor(ContextCompat.getColor(this,R.color.white))
+        binding.buttonScheduleUseEach.isEnabled = true
+        binding.textviewScheduleEachOnOff.isEnabled = true
+        binding.textviewScheduleEachOnOff.setTextColor(ContextCompat.getColor(this,R.color.grey_900))
+        binding.buttonEditName.isEnabled = true
+        binding.buttonEditName.setTextColor(ContextCompat.getColor(this,R.color.green_700))
+        btnArray.forEach { it.isEnabled = true }
+        binding.buttonDelete.isEnabled = true
+        binding.buttonDelete.setTextColor(ContextCompat.getColor(this,R.color.coral))
     }
 
-    private fun showTimePickerDialog(view: View) {
-        val timepicker = CustomTimePickerDialog(this,
-            { _, sHour, sMinute ->
-                setScheduleTimes(view, sHour, sMinute) }, 0, 0, false)
-        timepicker.setTitle(R.string.timeSetting)
-        timepicker.show()
-    }
 
-    private fun setScheduleTimes(view: View, sHour: Int, sMinute: Int) {
+    fun scheduleTimepickerButtonClick(view: View) {
         when (view.id) {
-            R.id.button_startTime -> { startTimeButton.text = String.format("%02d:%02d", sHour, sMinute) }
-            R.id.button_endTime -> { endTimeButton.text = String.format("%02d:%02d", sHour, sMinute) }
+            R.id.button_startTime -> {
+                binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
+                timeClickButtonText = this.getString(R.string.startTime)
+            }
+            R.id.button_endTime -> {
+                binding.timepickerTextviewTitle.text = this.getString(R.string.endTime)
+                timeClickButtonText = this.getString(R.string.endTime)
+            }
+        }
+        setTimePickerInterval(scheduleTimePicker)
+        binding.timepickerScheduleDialog.visibility = View.VISIBLE
+        setEnabledFalseRemainder()
+    }
+
+    fun scheduleTimePickerCancelClick() {
+        binding.timepickerScheduleDialog.visibility = View.GONE
+    }
+
+    fun scheduleTimePickerDoneClick() {
+        val hour = scheduleTimePicker.hour
+        val minute = scheduleTimePicker.minute * TIME_PICKER_INTERVAL
+        val resultTime = updateTime(hour, minute)
+        when (timeClickButtonText) {
+            getString(R.string.startTime) -> {
+                startTimeButton.text = resultTime
+            }
+            getString(R.string.endTime) -> {
+                endTimeButton.text = resultTime
+            }
+        }
+        binding.timepickerScheduleDialog.visibility = View.GONE
+    }
+
+    private fun updateTime(hour: Int, minute: Int) : String {
+        var timeSet = ""
+        var sHour = hour
+        if (hour > 12) {
+            sHour -= 12
+            timeSet = "PM"
+        } else if (hour == 0) {
+            sHour +=12
+            timeSet = "AM"
+        } else if (hour == 12) {
+            timeSet = "PM"
+        } else {
+            timeSet = "AM"
+        }
+        return String.format("%02d:%02d", sHour, minute).plus(timeSet)
+    }
+
+    private fun setTimePickerInterval(timePicker: TimePicker) {
+        try {
+            val minutePicker: NumberPicker = timePicker.findViewById(Resources.getSystem().getIdentifier(
+                "minute", "id", "android"))
+            minutePicker.minValue = 0
+            minutePicker.maxValue = ((60 / TIME_PICKER_INTERVAL) - 1)
+            val minuteList = ArrayList<String>()
+            minuteList.let {
+                var i = 0
+                while (i < 60) {
+                    minuteList.add(String.format("%02d", i))
+                    i += TIME_PICKER_INTERVAL
+                }
+            }
+            minutePicker.displayedValues = minuteList.toTypedArray()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "setTimePickerInterval: ${e.message}")
         }
     }
 
@@ -423,9 +444,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         } else {
             setUseEachButtonFalse()
         }
-//        setUseEachButton(checkUseEachButtonState(data.use))
-//        checkDaysButtonFromEditData(data.day)
-//        getDayButtonBeforeEdit(data.day)
     }
 
     private fun getIntentKey(): String {
@@ -442,9 +460,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         useEachButton = binding.buttonScheduleUseEach
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
-
-//        timeCancelButton = findViewById(R.id.timepicker_button_cancel)
-//        timeOkButton = findViewById(R.id.timepicker_button_ok)
+        scheduleTimePicker = binding.timepickerSchedule
 
         sunButton = binding.buttonSun
         monButton = binding.buttonMon

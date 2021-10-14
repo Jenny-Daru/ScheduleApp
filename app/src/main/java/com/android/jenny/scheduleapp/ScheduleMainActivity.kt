@@ -30,7 +30,7 @@ class ScheduleMainActivity : AppCompatActivity() {
     private lateinit var useAllButton: ImageButton
 
     private var useAllOnOff: Boolean = true
-    var useAll = "y"
+    var useAll = "n"
     private var allSchedule: AllSchedule? = null
     private var schedules: MutableList<Schedule> = mutableListOf()
 
@@ -111,22 +111,22 @@ class ScheduleMainActivity : AppCompatActivity() {
             "A",
             "n",
             "mon",
-            "07:00",
-            "20:00"
+            "07:00AM",
+            "13:00PM"
         )
         val schedule2 = Schedule(
             "B",
             "y",
             "sun,tue,wed,fri,sat",
-            "12:00",
-            "00:00"
+            "12:00AM",
+            "12:50AM"
         )
         val schedule3 = Schedule(
             "C",
             "y",
             "mon,fri",
-            "08:00",
-            "10:00"
+            "13:00PM",
+            "16:00PM"
         )
 
         schedules.add(schedule1)

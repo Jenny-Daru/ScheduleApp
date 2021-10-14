@@ -11,7 +11,7 @@
         <item name="android:textColorPrimary">@color/grey_900</item>
     </style>
 
-    <style name="MyTimePickerWidgetStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="TimePickerStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/green_700</item>
         <item name="android:textColorPrimary">@color/grey_900</item>
     </style>
