@@ -323,31 +323,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.find { it == button }?.apply { isSelected = true }
     }
 
-    private fun setEnabledFalseRemainder() {
-        binding.buttonSave.isEnabled = false
-        binding.buttonSave.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
-        binding.buttonScheduleUseEach.isEnabled = false
-        binding.textviewScheduleEachOnOff.isEnabled = false
-        binding.textviewScheduleEachOnOff.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
-        binding.buttonEditName.isEnabled = false
-        binding.buttonEditName.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
-        btnArray.forEach { it.isEnabled = false }
-        binding.buttonDelete.isEnabled = false
-        binding.buttonDelete.setTextColor(ContextCompat.getColor(this,R.color.grey_800))
-    }
 
-    private fun setEnabledTrueRemainder() {
-        binding.buttonSave.isEnabled = true
-        binding.buttonSave.setTextColor(ContextCompat.getColor(this,R.color.white))
-        binding.buttonScheduleUseEach.isEnabled = true
-        binding.textviewScheduleEachOnOff.isEnabled = true
-        binding.textviewScheduleEachOnOff.setTextColor(ContextCompat.getColor(this,R.color.grey_900))
-        binding.buttonEditName.isEnabled = true
-        binding.buttonEditName.setTextColor(ContextCompat.getColor(this,R.color.green_700))
-        btnArray.forEach { it.isEnabled = true }
-        binding.buttonDelete.isEnabled = true
-        binding.buttonDelete.setTextColor(ContextCompat.getColor(this,R.color.coral))
-    }
 
 
     fun scheduleTimepickerButtonClick(view: View) {
@@ -363,7 +339,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         }
         setTimePickerInterval(scheduleTimePicker)
         binding.timepickerScheduleDialog.visibility = View.VISIBLE
-        setEnabledFalseRemainder()
     }
 
     fun scheduleTimePickerCancelClick() {
