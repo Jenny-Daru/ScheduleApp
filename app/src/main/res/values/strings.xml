@@ -56,6 +56,7 @@
     <string name="schedule_delete_message">Delete this schedule?</string>
 
     <string name="done">Done</string>
+    <string name="schedule">Schedule</string>
 
     <string name="time1">12A</string>
     <string name="time2">4A</string>

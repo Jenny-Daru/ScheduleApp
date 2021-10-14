@@ -19,7 +19,9 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.widget.NumberPicker
-import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ScheduleAddEditActivity: AppCompatActivity() {
@@ -39,7 +41,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         private const val TIME_PICKER_INTERVAL = 10
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
-    private lateinit var textViewScheduleOnOff: TextView
+    private lateinit var textViewScheduleNameOnOff: TextView
     private lateinit var useEachButton: ImageButton
     private lateinit var startTimeButton: Button
     private lateinit var endTimeButton: Button
@@ -164,7 +166,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     private fun getResultEditScheduleData(): Schedule {
         return Schedule(
-            textViewScheduleOnOff.text.toString(),
+            textViewScheduleNameOnOff.text.toString(),
             useEachOnOff,
             sortScheduleDays(dayList),
             startTimeButton.text.toString(),
@@ -189,7 +191,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         builder.setTitle(R.string.edit_schedule_name)
 
         val input = EditText(this)
-        input.hint = textViewScheduleOnOff.text
+        input.hint = textViewScheduleNameOnOff.text
         input.inputType = InputType.TYPE_CLASS_TEXT
 
         val filterArray = arrayOfNulls<InputFilter>(1)
@@ -200,7 +202,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
         builder.setPositiveButton(R.string.ok) { _, _ ->
             val editName = input.text.toString()
-            textViewScheduleOnOff.text = editName
+            textViewScheduleNameOnOff.text = editName
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.cancel()
@@ -323,21 +325,29 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.find { it == button }?.apply { isSelected = true }
     }
 
-
-
+    private fun setUpdateTimePicker(time: String): LocalDateTime {
+        val formatter = DateTimeFormatter.ofPattern("yy:mm a")
+        return LocalDateTime.parse(time, formatter)
+    }
 
     fun scheduleTimepickerButtonClick(view: View) {
+        setTimePickerInterval(scheduleTimePicker)
         when (view.id) {
             R.id.button_startTime -> {
+                val localTime = setUpdateTimePicker(SCHEDULE_TIMES)
+                scheduleTimePicker.hour = localTime.hour
+                scheduleTimePicker.minute = localTime.minute
                 binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
                 timeClickButtonText = this.getString(R.string.startTime)
             }
             R.id.button_endTime -> {
+                val localTime = setUpdateTimePicker(SCHEDULE_TIMES)
+                scheduleTimePicker.hour = localTime.hour
+                scheduleTimePicker.minute = localTime.minute
                 binding.timepickerTextviewTitle.text = this.getString(R.string.endTime)
                 timeClickButtonText = this.getString(R.string.endTime)
             }
         }
-        setTimePickerInterval(scheduleTimePicker)
         binding.timepickerScheduleDialog.visibility = View.VISIBLE
     }
 
@@ -346,6 +356,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     }
 
     fun scheduleTimePickerDoneClick() {
+
         val hour = scheduleTimePicker.hour
         val minute = scheduleTimePicker.minute * TIME_PICKER_INTERVAL
         val resultTime = updateTime(hour, minute)
@@ -409,7 +420,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun loadEditScheduleData(data: Schedule) {
         Log.e(TAG, "loadEditScheduleData - start")
         Log.e(TAG, "loadEditScheduleData: $data")
-        textViewScheduleOnOff.text = data.name
+        textViewScheduleNameOnOff.text = data.name
         startTimeButton.text = data.start
         endTimeButton.text = data.end
 
@@ -431,7 +442,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_add_edit)
         binding.activity = this@ScheduleAddEditActivity
 
-        textViewScheduleOnOff = binding.textviewScheduleEachOnOff
+        textViewScheduleNameOnOff = binding.textviewScheduleNameEachOnOff
         useEachButton = binding.buttonScheduleUseEach
         startTimeButton = binding.buttonStartTime
         endTimeButton = binding.buttonEndTime
