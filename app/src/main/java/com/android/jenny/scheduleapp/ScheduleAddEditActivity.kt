@@ -2,6 +2,7 @@ package com.android.jenny.scheduleapp
 
 import android.content.Intent
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -19,6 +20,7 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.widget.NumberPicker
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -37,7 +39,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             "fri" to 5,
             "sat" to 6
         )
-        private const val SCHEDULE_TIMES = "00:00"
         private const val TIME_PICKER_INTERVAL = 10
     }
     private lateinit var binding: ActivityScheduleAddEditBinding
@@ -143,7 +144,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun checkTimes(): Boolean {
         val startTime = startTimeButton.text.toString()
         val endTime = endTimeButton.text.toString()
-        return !(startTime == SCHEDULE_TIMES && endTime == SCHEDULE_TIMES)
+        return (startTime != endTime)
     }
 
     private fun saveForScheduleListActivity() {
@@ -253,16 +254,16 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     private fun setAllButtonEnabledFalse() {
         btnArray.forEach { it.isEnabled = false }
 
-        binding.textviewStartTime.setTextColor(this.getColor(R.color.grey_700))
-        binding.textviewEndTime.setTextColor(this.getColor(R.color.grey_700))
-        binding.textviewTimeTerm.setTextColor(this.getColor(R.color.grey_700))
+        binding.textviewStartTime.setTextColor(this.getColor(R.color.grey_800))
+        binding.textviewEndTime.setTextColor(this.getColor(R.color.grey_800))
+        binding.textviewTimeTerm.setTextColor(this.getColor(R.color.grey_800))
         startTimeButton.isEnabled = false
         endTimeButton.isEnabled = false
-        startTimeButton.setTextColor(this.getColor(R.color.grey_700))
-        endTimeButton.setTextColor(this.getColor(R.color.grey_700))
+        startTimeButton.setTextColor(this.getColor(R.color.grey_800))
+        endTimeButton.setTextColor(this.getColor(R.color.grey_800))
 
         binding.buttonDelete.isEnabled = false
-        binding.buttonDelete.setTextColor(this.getColor(R.color.grey_700))
+        binding.buttonDelete.setTextColor(this.getColor(R.color.grey_800))
     }
 
     fun dayButtonClick(view: View) {
@@ -325,41 +326,95 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.find { it == button }?.apply { isSelected = true }
     }
 
-    private fun setUpdateTimePicker(time: String): LocalDateTime {
-        val formatter = DateTimeFormatter.ofPattern("yy:mm a")
-        return LocalDateTime.parse(time, formatter)
+    private fun setEnabledFalseRemainder() {
+        binding.buttonSave.isEnabled = false
+        binding.buttonSave.setTextColor(this.getColor(R.color.grey_200))
+        useEachButton.isEnabled = false
+        textViewScheduleNameOnOff.isEnabled = false
+        textViewScheduleNameOnOff.setTextColor(this.getColor(R.color.grey_800))
+        binding.buttonEditName.isEnabled = false
+        binding.buttonEditName.setTextColor(this.getColor(R.color.grey_800))
+        btnArray.forEach { it.isEnabled = false }
+        binding.buttonDelete.isEnabled = false
+        binding.buttonDelete.setTextColor(this.getColor(R.color.grey_800))
+
+    }
+
+    private fun setEnabledTrueRemainder() {
+        binding.buttonSave.isEnabled = true
+        binding.buttonSave.setTextColor(this.getColor(R.color.white))
+        useEachButton.isEnabled = true
+        textViewScheduleNameOnOff.isEnabled = true
+        textViewScheduleNameOnOff.setTextColor(this.getColor(R.color.grey_900))
+        binding.buttonEditName.isEnabled = true
+        binding.buttonEditName.setTextColor(this.getColor(R.color.green_700))
+        btnArray.forEach { it.isEnabled = true }
+        binding.buttonDelete.isEnabled = true
+        binding.buttonDelete.setTextColor(this.getColor(R.color.coral))
+    }
+
+    fun scheduleStartTimeButtonClick(view: View) {
+        setTimePickerInterval(scheduleTimePicker)
+        binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
+        binding.timepickerScheduleDialog.visibility = View.VISIBLE
+        setEnabledFalseRemainder()
+
+        when (key) {
+            //TODO: add / edit 다른점 => TimePicker 클릭 후 Picker 값 다르게 가져옴
+            "addScheduleKey" -> {
+
+            }
+
+            "editScheduleKey" -> {
+
+            }
+        }
+
     }
 
     fun scheduleTimepickerButtonClick(view: View) {
-        setTimePickerInterval(scheduleTimePicker)
+        binding.timepickerScheduleDialog.visibility = View.VISIBLE
         when (view.id) {
             R.id.button_startTime -> {
-                val localTime = setUpdateTimePicker(SCHEDULE_TIMES)
-                scheduleTimePicker.hour = localTime.hour
-                scheduleTimePicker.minute = localTime.minute
+
                 binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
                 timeClickButtonText = this.getString(R.string.startTime)
+//                setEnabledFalseRemainder()
+                endTimeButton.isEnabled = false
             }
             R.id.button_endTime -> {
-                val localTime = setUpdateTimePicker(SCHEDULE_TIMES)
-                scheduleTimePicker.hour = localTime.hour
-                scheduleTimePicker.minute = localTime.minute
                 binding.timepickerTextviewTitle.text = this.getString(R.string.endTime)
                 timeClickButtonText = this.getString(R.string.endTime)
+//                setEnabledFalseRemainder()
+                startTimeButton.isEnabled = false
             }
         }
+        setEnabledFalseRemainder()
         binding.timepickerScheduleDialog.visibility = View.VISIBLE
     }
 
     fun scheduleTimePickerCancelClick() {
-        binding.timepickerScheduleDialog.visibility = View.GONE
+        scheduleTimePickerVisibilityGone()
     }
 
     fun scheduleTimePickerDoneClick() {
-
         val hour = scheduleTimePicker.hour
         val minute = scheduleTimePicker.minute * TIME_PICKER_INTERVAL
+        Log.e("TimePickerDoneClick()", "$hour:$minute")
         val resultTime = updateTime(hour, minute)
+        setScheduleTimePickerValue(resultTime)
+
+        scheduleTimePickerVisibilityGone()
+    }
+
+    private fun scheduleTimePickerVisibilityGone() {
+        setEnabledTrueRemainder()
+        startTimeButton.isEnabled = true
+        endTimeButton.isEnabled = true
+        binding.timepickerScheduleDialog.visibility = View.GONE
+    }
+
+    private fun setScheduleTimePickerValue(resultTime: String) {
         when (timeClickButtonText) {
             getString(R.string.startTime) -> {
                 startTimeButton.text = resultTime
@@ -368,7 +423,6 @@ class ScheduleAddEditActivity: AppCompatActivity() {
                 endTimeButton.text = resultTime
             }
         }
-        binding.timepickerScheduleDialog.visibility = View.GONE
     }
 
     private fun updateTime(hour: Int, minute: Int) : String {
@@ -390,8 +444,18 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     private fun setTimePickerInterval(timePicker: TimePicker) {
         try {
+            val hourPicker: NumberPicker = timePicker.findViewById(Resources.getSystem().getIdentifier(
+                "hour", "id", "android" ))
             val minutePicker: NumberPicker = timePicker.findViewById(Resources.getSystem().getIdentifier(
-                "minute", "id", "android"))
+                "minute", "id", "android" ))
+            val amPmPicker: NumberPicker = timePicker.findViewById(Resources.getSystem().getIdentifier(
+                "amPm", "id", "android"
+            ))
+            Log.e("amPmPicker_1", "${amPmPicker.value}")
+            amPmPicker.value = 1
+            Log.e("amPmPicker_2", "${amPmPicker.value}")
+            hourPicker.value = 0
+            Log.e("hourPicker", "${hourPicker.value}")
             minutePicker.minValue = 0
             minutePicker.maxValue = ((60 / TIME_PICKER_INTERVAL) - 1)
             val minuteList = ArrayList<String>()
@@ -414,6 +478,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         setUseEachButtonTrue()
         btnArray.forEach { it.isSelected = true }
         dayList.addAll(SCHEDULE_DAYS)
+        setTimePickerInterval(scheduleTimePicker)
         setAllButtonEnabledTrue()
     }
 
@@ -421,6 +486,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         Log.e(TAG, "loadEditScheduleData - start")
         Log.e(TAG, "loadEditScheduleData: $data")
         textViewScheduleNameOnOff.text = data.name
+        setTimePickerInterval(scheduleTimePicker)
         startTimeButton.text = data.start
         endTimeButton.text = data.end
 

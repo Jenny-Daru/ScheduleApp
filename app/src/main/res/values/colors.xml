@@ -4,11 +4,11 @@
     <color name="green_700">#ff8DB74A</color>
     <color name="green_900">#5B8228</color>
     <color name="green_100">#CDEE9A</color>
-    <color name="grey_900">#2C2D35</color>
 
     <color name="grey_200">#F0F0F0</color>
-    <color name="grey_700">#BFBFBF</color>
-    <color name="grey_400">#898989</color>
+    <color name="grey_400">#BFBFBF</color>
+    <color name="grey_800">#999999</color>
+    <color name="grey_900">#2C2D35</color>
 
     <color name="navy_700">#185961</color>
     <color name="black">#FF000000</color>
