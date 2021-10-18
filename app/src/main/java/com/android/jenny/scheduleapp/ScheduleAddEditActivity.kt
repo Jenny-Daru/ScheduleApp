@@ -1,8 +1,8 @@
 package com.android.jenny.scheduleapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -20,10 +20,6 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import android.widget.NumberPicker
-import androidx.core.content.ContextCompat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class ScheduleAddEditActivity: AppCompatActivity() {
@@ -41,6 +37,25 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         )
         private const val TIME_PICKER_INTERVAL = 10
     }
+//    private val SCHEDULE_DAYS = mutableListOf(
+//        this.getString(R.string.sun_day),
+//        this.getString(R.string.mon_day),
+//        this.getString(R.string.tues_day),
+//        this.getString(R.string.wed_day),
+//        this.getString(R.string.thurs_day),
+//        this.getString(R.string.fri_day),
+//        this.getString(R.string.sat_day)
+//    )
+//    private val SCHEDULE_DAYS_ORDER: HashMap<String, Int> = hashMapOf(
+//        this.getString(R.string.sun_day) to 0,
+//        this.getString(R.string.mon_day) to 1,
+//        this.getString(R.string.tues_day) to 2,
+//        this.getString(R.string.wed_day) to 3,
+//        this.getString(R.string.thurs_day) to 4,
+//        this.getString(R.string.fri_day) to 5,
+//        this.getString(R.string.sat_day) to 6
+//    )
+
     private lateinit var binding: ActivityScheduleAddEditBinding
     private lateinit var textViewScheduleNameOnOff: TextView
     private lateinit var useEachButton: ImageButton
@@ -326,7 +341,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.find { it == button }?.apply { isSelected = true }
     }
 
-    private fun setEnabledFalseRemainder() {
+    private fun setEnabledFalse() {
         binding.buttonSave.isEnabled = false
         binding.buttonSave.setTextColor(this.getColor(R.color.grey_200))
         useEachButton.isEnabled = false
@@ -340,7 +355,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
 
     }
 
-    private fun setEnabledTrueRemainder() {
+    private fun setEnabledTrue() {
         binding.buttonSave.isEnabled = true
         binding.buttonSave.setTextColor(this.getColor(R.color.white))
         useEachButton.isEnabled = true
@@ -353,43 +368,22 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         binding.buttonDelete.setTextColor(this.getColor(R.color.coral))
     }
 
-    fun scheduleStartTimeButtonClick(view: View) {
-        setTimePickerInterval(scheduleTimePicker)
-        binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
-        binding.timepickerScheduleDialog.visibility = View.VISIBLE
-        setEnabledFalseRemainder()
-
-        when (key) {
-            //TODO: add / edit 다른점 => TimePicker 클릭 후 Picker 값 다르게 가져옴
-            "addScheduleKey" -> {
-
-            }
-
-            "editScheduleKey" -> {
-
-            }
-        }
-
-    }
-
     fun scheduleTimepickerButtonClick(view: View) {
-        binding.timepickerScheduleDialog.visibility = View.VISIBLE
         when (view.id) {
             R.id.button_startTime -> {
-
+                Log.e(TAG,"scheduleTimePickerClick:StartButton")
                 binding.timepickerTextviewTitle.text = this.getString(R.string.startTime)
                 timeClickButtonText = this.getString(R.string.startTime)
-//                setEnabledFalseRemainder()
                 endTimeButton.isEnabled = false
             }
             R.id.button_endTime -> {
+                Log.e(TAG,"scheduleTimePickerClick:EndButton")
                 binding.timepickerTextviewTitle.text = this.getString(R.string.endTime)
                 timeClickButtonText = this.getString(R.string.endTime)
-//                setEnabledFalseRemainder()
                 startTimeButton.isEnabled = false
             }
         }
-        setEnabledFalseRemainder()
+        setEnabledFalse()
         binding.timepickerScheduleDialog.visibility = View.VISIBLE
     }
 
@@ -408,10 +402,10 @@ class ScheduleAddEditActivity: AppCompatActivity() {
     }
 
     private fun scheduleTimePickerVisibilityGone() {
-        setEnabledTrueRemainder()
+        setEnabledTrue()
+        binding.timepickerScheduleDialog.visibility = View.GONE
         startTimeButton.isEnabled = true
         endTimeButton.isEnabled = true
-        binding.timepickerScheduleDialog.visibility = View.GONE
     }
 
     private fun setScheduleTimePickerValue(resultTime: String) {
@@ -451,11 +445,7 @@ class ScheduleAddEditActivity: AppCompatActivity() {
             val amPmPicker: NumberPicker = timePicker.findViewById(Resources.getSystem().getIdentifier(
                 "amPm", "id", "android"
             ))
-            Log.e("amPmPicker_1", "${amPmPicker.value}")
             amPmPicker.value = 1
-            Log.e("amPmPicker_2", "${amPmPicker.value}")
-            hourPicker.value = 0
-            Log.e("hourPicker", "${hourPicker.value}")
             minutePicker.minValue = 0
             minutePicker.maxValue = ((60 / TIME_PICKER_INTERVAL) - 1)
             val minuteList = ArrayList<String>()
@@ -467,6 +457,9 @@ class ScheduleAddEditActivity: AppCompatActivity() {
                 }
             }
             minutePicker.displayedValues = minuteList.toTypedArray()
+
+            timePicker.hour = hourPicker.maxValue
+            timePicker.minute = minutePicker.minValue
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e(TAG, "setTimePickerInterval: ${e.message}")
@@ -479,16 +472,15 @@ class ScheduleAddEditActivity: AppCompatActivity() {
         btnArray.forEach { it.isSelected = true }
         dayList.addAll(SCHEDULE_DAYS)
         setTimePickerInterval(scheduleTimePicker)
-        setAllButtonEnabledTrue()
     }
 
     private fun loadEditScheduleData(data: Schedule) {
         Log.e(TAG, "loadEditScheduleData - start")
         Log.e(TAG, "loadEditScheduleData: $data")
         textViewScheduleNameOnOff.text = data.name
-        setTimePickerInterval(scheduleTimePicker)
         startTimeButton.text = data.start
         endTimeButton.text = data.end
+        setTimePickerInterval(scheduleTimePicker)
 
         checkDaysButtonFromEditData(data.day)
         if (data.use == "y") {
